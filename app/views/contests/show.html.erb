@@ -1,0 +1,40 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @contest.name %>
+</p>
+
+<p>
+  <b>Start time:</b>
+  <%= @contest.start_time %>
+</p>
+
+<p>
+  <b>End time:</b>
+  <%= @contest.end_time %>
+</p>
+
+<p>
+  <b>Visible group:</b>
+  <%= @contest.visible_group %>
+</p>
+
+<p>
+  <b>Moderate group:</b>
+  <%= @contest.moderate_group %>
+</p>
+
+<p>
+  <b>Author group:</b>
+  <%= @contest.author_group %>
+</p>
+
+<p>
+  <b>Path:</b>
+  <%= @contest.path %>
+</p>
+
+
+<%= link_to 'Edit', edit_contest_path(@contest) %> |
+<%= link_to 'Back', contests_path %>

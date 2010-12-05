@@ -1,0 +1,23 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  problem_id: 1
+  user_id: 1
+  result: 1
+  time: 2010-11-28 15:38:19
+  used_memory: 1
+  used_time: 1
+  lang: MyString
+  visible_group: MyString
+  path: MyString
+
+two:
+  problem_id: 1
+  user_id: 1
+  result: 1
+  time: 2010-11-28 15:38:19
+  used_memory: 1
+  used_time: 1
+  lang: MyString
+  visible_group: MyString
+  path: MyString

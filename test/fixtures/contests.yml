@@ -1,0 +1,19 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  name: MyString
+  start_time: 2010-11-28 16:05:06
+  end_time: 2010-11-28 16:05:06
+  visible_group: MyString
+  moderate_group: MyString
+  author_group: MyString
+  path: MyString
+
+two:
+  name: MyString
+  start_time: 2010-11-28 16:05:06
+  end_time: 2010-11-28 16:05:06
+  visible_group: MyString
+  moderate_group: MyString
+  author_group: MyString
+  path: MyString
