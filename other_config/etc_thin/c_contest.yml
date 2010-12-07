@@ -1,0 +1,14 @@
+--- 
+chdir: /home/quark/c_contest/c_contest_frontend
+environment: production
+timeout: 30
+log: log/thin.log
+pid: tmp/pids/thin.pid
+max_conns: 1024
+max_persistent_conns: 512
+require: []
+
+wait: 30
+servers: 5
+socket: /var/run/thin.c_contest.sock
+daemonize: true
