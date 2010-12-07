@@ -1,35 +1,31 @@
-<p id="notice"><%= notice %></p>
+<h1><%= @title %></h1>
 
-<p>
-  <b>Name:</b>
-  <%= @user.name %>
-</p>
+<table>
+<tr>
+  <td>用户名</td>
+  <td><%= @user.name %></td>
+</tr>
 
-<p>
-  <b>Nick:</b>
-  <%= @user.nick %>
-</p>
+<tr>
+  <td>显示名</td>
+  <td><%= @user.nick %></td>
+</tr>
 
-<p>
-  <b>Group:</b>
-  <%= @user.group %>
-</p>
+<tr>
+  <td>所属组</td>
+  <td><%= @user.group %></td>
+</tr>
 
-<p>
-  <b>Email:</b>
-  <%= @user.email %>
-</p>
+<tr>
+  <td>邮件</td>
+  <td><%= @user.email %></td>
+</tr>
 
-<p>
-  <b>Last login:</b>
-  <%= @user.last_login %>
-</p>
-
-<p>
-  <b>Signature:</b>
-  <%= @user.signature %>
-</p>
+<tr>
+  <td>签名档</td>
+  <td><%= @user.signature %></td>
+</tr>
+</table>
 
 
-<%= link_to 'Edit', edit_user_path(@user) %> |
-<%= link_to 'Back', users_path %>
+

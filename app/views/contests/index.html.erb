@@ -1,35 +1,15 @@
-<h1>Listing contests</h1>
+<h1>比赛列表</h1>
 
 <table>
   <tr>
-    <th>Name</th>
-    <th>Start time</th>
-    <th>End time</th>
-    <th>Visible group</th>
-    <th>Moderate group</th>
-    <th>Author group</th>
-    <th>Path</th>
-    <th></th>
-    <th></th>
-    <th></th>
+    <th>名称</th>
+    <th>开始时间</th>
+    <th>结束时间</th>
   </tr>
 
-<% @contests.each do |contest| %>
-  <tr>
-    <td><%= contest.name %></td>
-    <td><%= contest.start_time %></td>
-    <td><%= contest.end_time %></td>
-    <td><%= contest.visible_group %></td>
-    <td><%= contest.moderate_group %></td>
-    <td><%= contest.author_group %></td>
-    <td><%= contest.path %></td>
-    <td><%= link_to 'Show', contest %></td>
-    <td><%= link_to 'Edit', edit_contest_path(contest) %></td>
-    <td><%= link_to 'Destroy', contest, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
-<% end %>
+  <%= render @contests %>
 </table>
-
-<br />
-
-<%= link_to 'New Contest', new_contest_path %>
+<% if is_admin? %>
+  <hr>
+  <%= link_to 'New Contest', new_contest_path %>
+<% end %>

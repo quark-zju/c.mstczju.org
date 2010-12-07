@@ -1,40 +1,49 @@
-<p id="notice"><%= notice %></p>
+<h1><%= @contest.name %></h1>
 
-<p>
+<table>
+  <tr>
+    <th>ID</th>
+    <th>标题</th>
+    <th>通过数</th>
+    <th>提交数</th>
+  </tr>
+  <%= render @contest.problem_links %>
+</table>
+
+<% if is_admin? %>
+  <hr>
+  <p>
   <b>Name:</b>
   <%= @contest.name %>
-</p>
+  </p>
 
-<p>
+  <p>
   <b>Start time:</b>
   <%= @contest.start_time %>
-</p>
+  </p>
 
-<p>
+  <p>
+  <b>Freeze time:</b>
+  <%= @contest.freeze_time %>
+  </p>
+
+
+  <p>
   <b>End time:</b>
   <%= @contest.end_time %>
-</p>
+  </p>
 
-<p>
+  <p>
   <b>Visible group:</b>
   <%= @contest.visible_group %>
-</p>
+  </p>
 
-<p>
+  <p>
   <b>Moderate group:</b>
   <%= @contest.moderate_group %>
-</p>
-
-<p>
-  <b>Author group:</b>
-  <%= @contest.author_group %>
-</p>
-
-<p>
-  <b>Path:</b>
-  <%= @contest.path %>
-</p>
+  </p>
 
 
-<%= link_to 'Edit', edit_contest_path(@contest) %> |
-<%= link_to 'Back', contests_path %>
+  <%= link_to 'Edit', edit_contest_path(@contest) %> |
+  <%= link_to 'List', contests_path %>
+<% end %>

@@ -1,50 +1,28 @@
-<p id="notice"><%= notice %></p>
+<table>
+  <tr>
+    <th>ID</th>
+    <th>题号</th>
+    <th>用户</th>
+    <th>评测结果</th>
+    <th>提交时间</th>
+    <th>内存</th>
+    <th>时间</th>
+    <th>语言</th>
+    <% if is_admin? %>
+      <th></th>
+      <th></th>
+      <th></th>
+    <% end %>
+  </tr>
 
-<p>
-  <b>Problem:</b>
-  <%= @submission.problem_id %>
-</p>
+  <%= render @submission %>
+</table>
 
-<p>
-  <b>User:</b>
-  <%= @submission.user_id %>
-</p>
+<%if @submission.owner?(current_user) || is_admin?  %>
+  <%= link_to '查看源代码', :controller => "submissions", :action => "source", :id => @submission %>
+<% end %>
 
-<p>
-  <b>Result:</b>
-  <%= @submission.result %>
-</p>
-
-<p>
-  <b>Time:</b>
-  <%= @submission.time %>
-</p>
-
-<p>
-  <b>Used memory:</b>
-  <%= @submission.used_memory %>
-</p>
-
-<p>
-  <b>Used time:</b>
-  <%= @submission.used_time %>
-</p>
-
-<p>
-  <b>Lang:</b>
-  <%= @submission.lang %>
-</p>
-
-<p>
-  <b>Visible group:</b>
-  <%= @submission.visible_group %>
-</p>
-
-<p>
-  <b>Path:</b>
-  <%= @submission.path %>
-</p>
-
-
-<%= link_to 'Edit', edit_submission_path(@submission) %> |
-<%= link_to 'Back', submissions_path %>
+<% if is_admin? %>
+  <hr>
+  <%= link_to 'Edit', edit_submission_path(@submission) %>
+<% end %>

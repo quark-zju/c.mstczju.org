@@ -1,83 +1,62 @@
+# coding: utf-8
+
 class ContestsController < ApplicationController
-  # GET /contests
-  # GET /contests.xml
+  before_filter :privileged_user, :only => [:edit, :update, :new, :create, :destroy]
+  before_filter :correct_time, :only => [:show]
+
   def index
+    @title = '比赛列表'
     @contests = Contest.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @contests }
-    end
   end
 
-  # GET /contests/1
-  # GET /contests/1.xml
   def show
-    @contest = Contest.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @contest }
-    end
+    #@contest = Contest.find(params[:id])
   end
 
-  # GET /contests/new
-  # GET /contests/new.xml
   def new
     @contest = Contest.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @contest }
-    end
   end
 
-  # GET /contests/1/edit
   def edit
     @contest = Contest.find(params[:id])
   end
 
-  # POST /contests
-  # POST /contests.xml
   def create
     @contest = Contest.new(params[:contest])
-
-    respond_to do |format|
-      if @contest.save
-        format.html { redirect_to(@contest, :notice => 'Contest was successfully created.') }
-        format.xml  { render :xml => @contest, :status => :created, :location => @contest }
-      else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @contest.errors, :status => :unprocessable_entity }
-      end
+    if @contest.save
+      redirect_to @contest, :notice => '创建成功'
+    else
+      redirect_to 'new', :notice => '创建失败'
     end
   end
 
-  # PUT /contests/1
-  # PUT /contests/1.xml
   def update
     @contest = Contest.find(params[:id])
-
-    respond_to do |format|
-      if @contest.update_attributes(params[:contest])
-        format.html { redirect_to(@contest, :notice => 'Contest was successfully updated.') }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @contest.errors, :status => :unprocessable_entity }
-      end
-    end
   end
 
-  # DELETE /contests/1
-  # DELETE /contests/1.xml
   def destroy
     @contest = Contest.find(params[:id])
     @contest.destroy
+  end
 
-    respond_to do |format|
-      format.html { redirect_to(contests_url) }
-      format.xml  { head :ok }
+  private
+
+  def correct_time
+    @contest = Contest.find(params[:id])
+    if Time.now < @contest.start_time 
+      if is_admin?
+        flash.now[:notice] = '该比赛尚未开始'
+        return
+      end
+      redirect_to contests_path, :flash => { :error => '现在不是比赛时间' }
     end
+  end
+
+  def privileged_user
+    if params[:id]
+      return if Contest.find(params[:id]).moderate_by?(current_user)
+    end
+    return if is_admin?
+    redirect_to root_path, :flash => { :error => '您无权限访问该页' }
   end
 end

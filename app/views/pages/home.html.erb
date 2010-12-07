@@ -1,0 +1,6 @@
+<h1><%= @title || '欢迎' %></h1>
+<% if signed_in? %>
+  <p>欢迎，<%= current_user.name %>！</p>
+<% else %>
+  <p>欢迎来到这里，请<%= link_to '登录', signin_path %></p>
+<% end %>

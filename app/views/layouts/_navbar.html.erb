@@ -1,0 +1,18 @@
+<div id="navibar" class="span-4 colborder">
+  <ul>
+    <li><%= link_to "首页", root_path %></li>
+    <% if signed_in? %>
+      <li><%= link_to "比赛列表", contests_path %></li>
+      <li><%= link_to "当前排名", ranklist_path %></li>
+      <li><%= link_to "提交代码", new_submission_path %></li>
+      <li><%= link_to "最近提交", submissions_path %></li>
+      <li><%= link_to "修改资料", edit_user_path(current_user) %></li>
+    <% end %>
+    <% if is_admin? %>
+      <hr class="nomarginbottom">
+      <li><%= link_to "题目列表", problems_path %></li>
+      <li><%= link_to "关系列表", problem_links_path %></li>
+    <% end %>
+  </ul>
+</div>
+

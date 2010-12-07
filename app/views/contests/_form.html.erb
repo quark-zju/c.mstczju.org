@@ -20,6 +20,10 @@
     <%= f.datetime_select :start_time %>
   </div>
   <div class="field">
+    <%= f.label :freeze_time %><br />
+    <%= f.datetime_select :freeze_time %>
+  </div>
+  <div class="field">
     <%= f.label :end_time %><br />
     <%= f.datetime_select :end_time %>
   </div>
@@ -30,14 +34,6 @@
   <div class="field">
     <%= f.label :moderate_group %><br />
     <%= f.text_field :moderate_group %>
-  </div>
-  <div class="field">
-    <%= f.label :author_group %><br />
-    <%= f.text_field :author_group %>
-  </div>
-  <div class="field">
-    <%= f.label :path %><br />
-    <%= f.text_field :path %>
   </div>
   <div class="actions">
     <%= f.submit %>

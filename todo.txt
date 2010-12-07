@@ -1,0 +1,21 @@
+problem model -- done [edit text and pic need manual -.-]
+problem view -- done
+
+contest - relation - view, edit -- done
+
+submission model -- done
+submission check problem
+
+
+submission link (code, ce ... ) -- done partial
+ranklist (
+select submissions for each problem, count user score into a hash and show that hash at last
+refresh every minute
+refresh time can not be more than freeze time
+)
+freeze board
+
+prevent too quick submission -- done
+
+judge
+

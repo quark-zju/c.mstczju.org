@@ -1,11 +1,26 @@
 CContest::Application.routes.draw do
-  resources :users
 
-  resources :contests
+  resources :problem_links
 
-  resources :problems
+  resources :contests #, :only => [:show, :index]
+  resources :problems #, :only => [:show]
+  resources :submissions #, :only => [:new, :create, :show, :index]
 
-  resources :submissions
+  # view source
+  match 'submissions/:id/source' => 'submissions#source'
+
+  resources :users, :only => [:show, :index, :edit, :update]
+  resources :sessions, :only => [:new, :create, :destroy]
+
+  match '/about', :to => 'pages#about'
+  match '/help', :to => 'pages#help'
+  match '/ranklist', :to => 'pages#ranklist'
+
+  root :to => 'pages#home'
+
+  match '/signin', :to => 'sessions#new'
+  match '/signout', :to => 'sessions#destroy'
+  
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

@@ -1,83 +1,111 @@
-class SubmissionsController < ApplicationController
-  # GET /submissions
-  # GET /submissions.xml
-  def index
-    @submissions = Submission.all
+# coding: utf-8
 
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @submissions }
-    end
+class SubmissionsController < ApplicationController
+  before_filter :privileged_user, :only => [:edit, :update, :destroy]
+  before_filter :signed_in_user
+  before_filter :correct_user, :only => [:source]
+
+  def index
+    @title = '最近提交'
+    @submissions = Submission.paginate(:page => params[:page])
   end
 
-  # GET /submissions/1
-  # GET /submissions/1.xml
   def show
     @submission = Submission.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @submission }
-    end
   end
 
-  # GET /submissions/new
-  # GET /submissions/new.xml
   def new
+    @title = '提交代码'
     @submission = Submission.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @submission }
-    end
   end
 
-  # GET /submissions/1/edit
   def edit
     @submission = Submission.find(params[:id])
   end
 
-  # POST /submissions
-  # POST /submissions.xml
   def create
-    @submission = Submission.new(params[:submission])
+    # reject quick submissions
+    next_submit_limit = $next_submit_limits[current_user.id] || (Time.now - 1)
+    $next_submit_limits.clear if $next_submit_limits.size >= 1024
+    $next_submit_limits[current_user.id] = Time.now + 4 + rand(5)
 
-    respond_to do |format|
-      if @submission.save
-        format.html { redirect_to(@submission, :notice => 'Submission was successfully created.') }
-        format.xml  { render :xml => @submission, :status => :created, :location => @submission }
-      else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @submission.errors, :status => :unprocessable_entity }
+    if Time.now < next_submit_limit
+        redirect_to root_path, :flash => { :error => '提交过于频繁，请稍候再试' }
+        return
+    end
+
+    # construct safe params
+    submission_params = {
+      :user_id => current_user.id,
+      :problem_id => params[:submission][:problem_id],
+      :lang => params[:submission][:lang],
+      :code => params[:submission][:code],
+    }
+
+    # check problem_id time
+    unless is_admin?
+      permitted, now, problem = false, Time.now, Problem.find(submission_params[:problem_id])
+      problem.contests.each do |contest|
+        if now >= contest.start_time and now <= contest.end_time
+          permitted = true
+          break
+        end
       end
+      if not permitted
+        redirect_to root_path, :flash => { :error => '目前时间不能提交该题目代码' }
+        return
+      end
+    end
+
+    submission_params[:result] = if is_admin?
+                                   params[:submission][:result]
+                                 else
+                                   0
+                                 end
+
+    @submission = Submission.new(submission_params)
+
+    if @submission.save
+      redirect_to(@submission, :notice => '提交成功') 
+    else
+      render :action => "new" 
     end
   end
 
-  # PUT /submissions/1
-  # PUT /submissions/1.xml
   def update
+    # require admin, so no check here
     @submission = Submission.find(params[:id])
 
-    respond_to do |format|
-      if @submission.update_attributes(params[:submission])
-        format.html { redirect_to(@submission, :notice => 'Submission was successfully updated.') }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @submission.errors, :status => :unprocessable_entity }
-      end
+    if @submission.update_attributes(params[:submission])
+      redirect_to(@submission, :notice => 'Submission was successfully updated.') 
+    else
+      render :action => "edit" 
     end
   end
 
-  # DELETE /submissions/1
-  # DELETE /submissions/1.xml
   def destroy
     @submission = Submission.find(params[:id])
     @submission.destroy
 
-    respond_to do |format|
-      format.html { redirect_to(submissions_url) }
-      format.xml  { head :ok }
-    end
+    redirect_to(submissions_url)
+  end
+
+  def source
+    @title = '源代码' 
+  end
+
+  private
+
+  def privileged_user
+    redirect_to root_path, :flash => { :error => '您无权访问该页' } unless is_admin?
+  end
+
+  def correct_user
+    @submission = Submission.find(params[:id])
+    redirect_to root_path, :flash => { :error => '您无权查看该提交代码' } unless @submission.owner?(current_user) || is_admin?
+  end
+
+  def signed_in_user
+    redirect_to root_path, :flash => { :error => '登录后才能访问该页' } unless signed_in?
   end
 end

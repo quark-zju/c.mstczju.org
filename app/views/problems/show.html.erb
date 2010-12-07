@@ -1,15 +1,18 @@
-<p id="notice"><%= notice %></p>
+<div id='problemInfo' class='rfloat'>
+时间限制: <%= @problem.time_limit %> 秒 <br>
+内存限制: <%= @problem.memory_limit %> MB <br>
+<%= "来源: #{@problem.source}" if @problem.source %>
+</div>
+<h1><%= @problem.title %></h1>
+<div id='problemContent'>
+<%= problem_html(@problem).html_safe %>
+</div>
+<hr>
 
-<p>
-  <b>Name:</b>
-  <%= @problem.name %>
-</p>
+<%= link_to '提交', :controller => 'submissions', :action => 'new', :problem_id => @problem %>
 
-<p>
-  <b>Path:</b>
-  <%= @problem.path %>
-</p>
-
-
-<%= link_to 'Edit', edit_problem_path(@problem) %> |
-<%= link_to 'Back', problems_path %>
+<% if is_admin? %>
+  <hr>
+  <%= link_to 'Edit', edit_problem_path(@problem) %> |
+  <%= link_to 'List', problems_path %>
+<% end %>

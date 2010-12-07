@@ -5,11 +5,16 @@ class CreateUsers < ActiveRecord::Migration
       t.string :nick
       t.string :group
       t.string :email
-      t.datetime :last_login
+      t.string :salt
+      t.string :encrypted_password
       t.string :signature
 
       t.timestamps
     end
+    add_index :users, :nick
+    add_index :users, :email
+    add_index :users, :name
+
   end
 
   def self.down

@@ -1,0 +1,27 @@
+<h1>Listing problem_links</h1>
+
+<table>
+  <tr>
+    <th>Contest</th>
+    <th>Problem</th>
+    <th>Name</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @problem_links.each do |problem_link| %>
+  <tr>
+    <td><%= problem_link.contest_id %></td>
+    <td><%= problem_link.problem_id %></td>
+    <td><%= problem_link.name %></td>
+    <td><%= link_to 'Show', problem_link %></td>
+    <td><%= link_to 'Edit', edit_problem_link_path(problem_link) %></td>
+    <td><%= link_to 'Destroy', problem_link, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Problem link', new_problem_link_path %>

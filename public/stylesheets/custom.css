@@ -1,0 +1,151 @@
+
+body {
+  background-color: #eee; color: #333;
+  font-family: verdana, arial, helvetica, sans-serif;
+  font-size:   13px;
+  line-height: 18px;
+}
+
+.container {
+  margin: 20px auto;
+  width: 980px;
+}
+
+#pageHeader {
+  clear: both;
+}
+
+#pageFooter {
+  color: #aaa;
+  font-size: 11px;
+  margin: 0 auto;
+  width: 980px;
+}
+
+#body {
+  margin-bottom: 2em;
+}
+
+hr.nomarginbottom {
+  margin-bottom: 0;
+}
+
+.hline {
+  border-bottom: 1px solid #ddd;
+  font-size: 1px;
+  height: 8px;
+}
+
+.rfloat {
+  float: right;
+}
+
+.lfloat {
+  float: left;
+}
+
+a {
+  text-decoration: none;
+  color: #0066CC;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+#headerInfo {
+  margin-top: 100px;
+}
+
+#navibar {
+  margin-bottom: 2em;
+}
+
+#navibar ul {
+    list-style-type: none;
+}
+#navibar li {
+    background: none repeat scroll 0 0 #DFEFFC;
+    border-color: #C5DBEC;
+    border-style: solid;
+    border-width: 1px 1px 1px 5px;
+    margin: 2px;
+}
+#navibar li:hover {
+    background: none repeat scroll 0 0 #F1F9FE;
+}
+#navibar a {
+    display: block;
+    padding: 3px 15px;
+    text-decoration: none;
+}
+#navibar span {
+    display: block;
+    padding: 3px 15px;
+    text-decoration: none;
+}
+#problemInfo {
+  background-color: #ddd;
+  padding:2px;
+}
+.field_with_errors {
+  margin-top: 10px;
+  padding: 2px;
+  background-color: red;
+  display: table;
+}
+
+.field_with_errors label {
+  color: #fff;
+}
+
+#error_explanation {
+  width: 400px;
+  border: 2px solid red;
+  padding: 7px;
+  padding-bottom: 12px;
+  margin-bottom: 20px;
+  background-color: #fff;
+}
+
+#error_explanation h2 {
+  text-align: left;
+  font-weight: bold;
+  padding: 5px 5px 5px 15px;
+  font-size: 12px;
+  margin: -7px;
+  background-color: #c00;
+  color: #fff;
+}
+
+#error_explanation ul {
+  margin: 13px 0px 0px 0px;
+}
+#error_explanation ul li {
+  font-size: 12px;
+  list-style: square;
+}
+.judgeRes-0 {
+  color: #f90;
+}
+.judgeRes-1 {
+  color: blue;
+}
+.judgeRes-2 {
+  color: #90f;
+}
+.judgeRes-3 {
+  color: red;
+}
+.judgeRes-4 {
+  color: #f09;
+}
+.judgeRes-5, .judgeRes-6, .judgeRes-7, .judgeRes-8, .judgeRes-9, .judgeRes-10, .judgeRes-11 {
+  color: green;
+}
+.judgeRes-12 {
+  color: #444;
+}
+.admin {
+  color: red;
+}

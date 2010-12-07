@@ -1,0 +1,17 @@
+<h1>登录</h1>
+<!-- no :url will cause post to '/sessions/new' because it is :session not @session (which requires a model), post to /sessions will triger 'create' action -->
+<%= form_for(:session, :url => sessions_path) do |f| %>
+  <div class="field">
+    <%= f.label :name, :用户名 %><br>
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :password, :密码 %><br />
+    <%= f.password_field :password %>
+  </div>
+  <div class="actions">
+    <%= f.submit "登录" %>
+  </div>
+<% end %>
+
+

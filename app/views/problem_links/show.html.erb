@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Contest:</b>
+  <%= @problem_link.contest_id %>
+</p>
+
+<p>
+  <b>Problem:</b>
+  <%= @problem_link.problem_id %>
+</p>
+
+<p>
+  <b>Name:</b>
+  <%= @problem_link.name %>
+</p>
+
+<%= link_to 'Edit', edit_problem_link_path(@problem_link) %> |
+<%= link_to 'Back', problem_links_path %>

@@ -1,3 +1,20 @@
+# == Schema Information
+# Schema version: 20101128080757
+#
+# Table name: problems
+#
+#  id           :integer         not null, primary key
+#  title        :string(255)     not null
+#  name         :string(255)     not null
+#  source       :string(255)
+#  memory_limit :integer         not null
+#  time_limit   :integer         not null
+#  accept_count :integer
+#  submit_count :integer
+#  created_at   :datetime
+#  updated_at   :datetime
+#
+
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
 one:

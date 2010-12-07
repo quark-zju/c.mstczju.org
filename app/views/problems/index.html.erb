@@ -2,8 +2,10 @@
 
 <table>
   <tr>
-    <th>Name</th>
-    <th>Path</th>
+    <th>title</th>
+    <th>time limit</th>
+    <th>memory limit</th>
+    <th>source</th>
     <th></th>
     <th></th>
     <th></th>
@@ -11,8 +13,11 @@
 
 <% @problems.each do |problem| %>
   <tr>
-    <td><%= problem.name %></td>
-    <td><%= problem.path %></td>
+    <td><%= problem.title %></td>
+    <td><%= problem.time_limit %></td>
+    <td><%= problem.memory_limit %></td>
+    <td><%= problem.source %></td>
+
     <td><%= link_to 'Show', problem %></td>
     <td><%= link_to 'Edit', edit_problem_path(problem) %></td>
     <td><%= link_to 'Destroy', problem, :confirm => 'Are you sure?', :method => :delete %></td>

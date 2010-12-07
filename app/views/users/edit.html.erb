@@ -1,6 +1,31 @@
-<h1>Editing user</h1>
+<h1><%= @title %></h1>
 
-<%= render 'form' %>
+<%= form_for(@user) do |f| %>
+  <%= render 'shared/error_messages', :object => f.object %>
+  
+  <div class="field">
+    <%= f.label :verify_password, :旧密码 %><br />
+    <%= f.password_field :verify_password %>
+  </div>
+  <div class="field">
+    <%= f.label :password, :新密码 %><br />
+    <%= f.password_field :password %>
+  </div>
+  <div class="field">
+    <%= f.label :password_confirmation, :确认新密码 %><br />
+    <%= f.password_field :password_confirmation %>
+  </div>
+  <div class="field">
+    <%= f.label :nick, :显示名 %><br />
+    <%= f.text_field :nick %>
+  </div>
+  <div class="field">
+    <%= f.label :signature, :签名档 %><br />
+    <%= f.text_field :signature %>
+  </div>
+  <p>如果不需要修改密码可以把新密码留空</p>
+  <div class="actions">
+    <%= f.submit '确定' %>
+  </div>
+<% end %>
 
-<%= link_to 'Show', @user %> |
-<%= link_to 'Back', users_path %>

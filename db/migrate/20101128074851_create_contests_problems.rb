@@ -3,6 +3,7 @@ class CreateContestsProblems < ActiveRecord::Migration
     create_table :contests_problems, :id => false do |t|
       t.integer :contest_id, :null => false
       t.integer :problem_id, :null => false
+      t.string :contest_problem_id, :null => false
     end
 
     add_index :contests_problems, [:contest_id, :problem_id], :unique => true

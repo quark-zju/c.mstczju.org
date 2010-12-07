@@ -4,15 +4,19 @@ class CreateSubmissions < ActiveRecord::Migration
       t.integer :problem_id
       t.integer :user_id
       t.integer :result
-      t.datetime :time
       t.integer :used_memory
       t.integer :used_time
       t.string :lang
       t.string :visible_group
-      t.string :path
 
       t.timestamps
     end
+    add_index :submissions, :problem_id
+    add_index :submissions, :user_id
+    add_index :submissions, :result
+    add_index :submissions, :lang
+    add_index :submissions, :created_at
+    add_index :submissions, :visible_group
   end
 
   def self.down
