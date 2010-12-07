@@ -1,28 +1,31 @@
 # SQLite version 3.x
 development:
-  adapter: mysql
+  adapter: mysql2
   database: contest_dev 
   encoding: utf8
   username: contest
   password: testcon
   pool: 5
+  reconnect: true
   socket: /var/run/mysqld/mysqld.sock
 
 test:
-  adapter: mysql
+  adapter: mysql2
   database: contest_test
   encoding: utf8
   username: contest
   password: testcon
   pool: 5
+  reconnect: true
   socket: /var/run/mysqld/mysqld.sock
 
 production:
-  adapter: mysql
+  adapter: mysql2
   database: contest_pro 
   encoding: utf8
   username: contest
   password: testcon
   pool: 5
+  reconnect: true
   socket: /var/run/mysqld/mysqld.sock
 
