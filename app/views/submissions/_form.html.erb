@@ -3,7 +3,11 @@
 
   <div class="field">
     <%= f.label :problem_id, '题目ID' %><br />
-    <%= f.text_field :problem_id, :value => params[:problem_id] %>
+    <% if params[:problem_id] %>
+      <%= f.text_field :problem_id, :value => params[:problem_id] %>
+    <% else %>
+      <%= f.text_field :problem_id %>
+    <% end %>
   </div>
   <div class="field">
     <%= f.label :lang, '语言' %><br />

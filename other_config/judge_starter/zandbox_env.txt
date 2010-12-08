@@ -1,0 +1,34 @@
+# visudo (sudoers)
+# 	%judge  ALL=(root:root) NOPASSWD: /sbin/zandbox
+# add group (/etc/group)
+#   judge:x:9000:
+# add user
+# 	useradd judge1 -l -d /home/judge -g judge -u 3000 -s /bin/bash
+# 	useradd judge2 -l -d /home/judge -g judge -u 3001 -s /bin/bash
+# add them into group 'judge'
+# 	gpasswd -a judge1 judge
+# 	gpasswd -a judge2 judge
+# modify sshd config, /etc/hosts.allow
+# 	AllowUsers quark judge1 judge2
+#   SSHD:10.,222.205.,127.0.0.1:ALLOW
+# gen sshkey at /home/judge/.ssh/
+# 	mv id_rsa.pub authorized_keys # /home/judge/.ssh/
+#   id_rsa should be at ~root/.ssh/
+# .ssh/config for root (or, http)
+#   Host local_judge1
+#		HostName localhost
+#		User judge1
+#		Protocol 2
+#		BatchMode yes
+#		ForwardX11 no
+#		ForwardX11Trusted no
+# sandboxfs for judge users and cgroupsetup
+# 	init_scripts/
+# 		S01-cgroup.sh
+# 		S02-sandboxfs.sh
+# 		E01-cgroup.sh
+# policyfile for judge users
+# 	(dynamic generated) by run.rb
+# run.lua [lang] [prob_path] [submit_path]
+# 	
+

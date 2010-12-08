@@ -1,2 +1,2 @@
--- Title: QZ
-limits = { time = 1, memory = 8 }
+-- Title: 让寒仔gg和水寒mm聊天吧
+limits = { time = 1, memory = 32 }

@@ -1,0 +1,2 @@
+-- Title: 孙燕姿哪首歌最好听
+limits = { time = 1, memory = 32 }

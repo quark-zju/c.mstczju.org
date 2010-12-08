@@ -1,0 +1,2 @@
+-- Title: 抢U盘
+limits = { time = 1, memory = 32 }

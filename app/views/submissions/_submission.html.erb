@@ -8,9 +8,9 @@
       <%= judge_results[submission.result || 0] %>
   </span></td>
 
-  <td><%= submission.created_at %></td>
-  <td><%= submission.used_memory %></td>
-  <td><%= submission.used_time %></td>
+  <td><%= submission.created_at.strftime "%Y-%m-%d %H:%M:%S" %></td>
+  <td><%= "#{submission.used_memory/10.0}" if submission.used_memory %></td>
+  <td><%= "#{submission.used_time}" if submission.used_time %></td>
 
   <td>
     <% if can_view_details %>

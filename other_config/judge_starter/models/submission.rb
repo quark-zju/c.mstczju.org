@@ -18,7 +18,8 @@
 class Submission < ActiveRecord::Base
   default_scope :order => 'submissions.created_at DESC'
   
-  attr_accessible :problem_id, :user_id, :result, :used_memory, :used_time, :lang, :visible_group, :code
+  attr_accessible :problem_id, :user_id, :result, :used_memory, :used_time, :lang, :visible_group
+  #, :code
   attr_readonly :id
 
   belongs_to :user
@@ -27,23 +28,23 @@ class Submission < ActiveRecord::Base
   validates_presence_of :user
   validates_presence_of :problem
   
-  validates :code, :length => { :within => 1..65536 }
+  #validates :code, :length => { :within => 1..65536 }
   validates :result, :presence => true
   validates :lang, :presence => true
 
-  after_save :create_directory
+  #after_save :create_directory
 
-  def code=(new_code)
-    @code = new_code
-  end
+  #def code=(new_code)
+  #  @code = new_code
+  #end
 
-  def code
-    if @code.nil? and not self.id.nil?
-      # load from file
-      @code = File.read "#{path}/code"
-    end
-    @code
-  end
+  #def code
+  #  if @code.nil? and not self.id.nil?
+  #    # load from file
+  #    @code = File.read "#{path}/code"
+  #  end
+  #  @code
+  #end
 
   def owner?(test_user)
     self.user == test_user 
@@ -58,10 +59,8 @@ class Submission < ActiveRecord::Base
   def create_directory
     Dir.mkdir_as_needed path
     # write info
-    if not @code.nil? 
-      File.open("#{path}/code", 'w') do |info|
-        info.print @code 
-      end
+    File.open("#{path}/code", 'w') do |info|
+      info.print @code 
     end
   end
 

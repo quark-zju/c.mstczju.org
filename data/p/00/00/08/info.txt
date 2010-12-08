@@ -1,0 +1,2 @@
+-- Title: Ghost Instrumentality Program
+limits = { time = 1, memory = 32 }

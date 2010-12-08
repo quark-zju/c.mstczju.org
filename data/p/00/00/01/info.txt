@@ -1,2 +1,2 @@
--- Title: HBXD
-limits = { time = 1, memory = 32 }
+-- Title: 抢整
+limits = { time = 1, memory = 8 }

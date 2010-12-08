@@ -1,0 +1,2 @@
+/tmp/ccPJHBaI.o: In function `main':
+code.c:(.text+0x40): warning: the `gets' function is dangerous and should not be used.

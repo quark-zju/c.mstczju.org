@@ -1,0 +1,2 @@
+-- Title: Skating
+limits = { time = 15, memory = 32 }
