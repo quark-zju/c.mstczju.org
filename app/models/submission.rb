@@ -28,6 +28,7 @@ class Submission < ActiveRecord::Base
   validates_presence_of :problem
   
   validates :code, :length => { :within => 1..65536 }
+  validates :result, :presence => true
   validates :lang, :presence => true
 
   after_save :create_directory

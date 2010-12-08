@@ -1,0 +1,56 @@
+<p><strong>题目描述</strong></p>
+<p>
+eshock 抢了 quark 的地板之后, quark 很生气, 后果很严重.
+经过 quark 的仔细思考之后, 决定拿起一块板砖对付 eshock.
+在这题中, quark 和 eshock 都处在一个平面直角坐标系内.
+首先, quark 在 (0, 0) 点立了一根柱子, 然后把 eshock 绑在柱子上.
+可怜的 eshock 又称小胖, 可以看作一个圆心为 (0, 0) 半径为 <var>r</var> 的圆.
+之后 quark 走到了点 (<var>x</var>, <var>y</var>), 拿起一块板砖, 啪一下朝 eshock 砸去,
+板砖匀速直线地飞出去, 速度是 (<var>v<sub>x</sub></var>, <var>v<sub>y</sub></var>). 请你帮可怜的 eshock 算算,
+那块板砖会不会砸中他呢?
+</p>
+
+<p><strong>限制条件</strong></p>
+<ol>
+    <li><var>x</var>, <var>y</var>, <var>v<sub>x</sub></var>, <var>v<sub>y</sub></var>, <var>r</var> 都是绝对值小于 100 的整数</li>
+    <li>点 (<var>x</var>, <var>y</var>) 到原点的距离严格大于 <var>r</var></li>
+    <li><var>v<sub>x</sub></var>, <var>v<sub>y</sub></var> 不全为 0, <var>r</var> 不为 0</li>
+    <li>板砖和 quark 的位置都可以看成是一个点, 板砖恰好擦到 eshock 也算砸中 (题目的测试数据中不会出现这种情况)</li>
+</ol>
+
+<p><strong>输入格式</strong></p>
+<p>
+输入的第一行是一个数 <var>T</var> (0 &le; <var>T</var> &le; 100), 表示 quark 用板砖砸了 eshock <var>T</var> 次.
+</p>
+<p>
+接下来一共有 <var>T</var> 行, 每行是五个整数 <var>x</var>, <var>y</var>, <var>v<sub>x</sub></var>, <var>v<sub>y</sub></var>, <var>r</var>, 分别表示 quark 的位置, 板砖的速度和 eshock 的半径.
+</p>
+
+<p><strong>输出格式</strong></p>
+<p>
+一共输出 <var>T</var> 行, 每行是一个 YES 或者一个 NO (注意大小写). 第 <var>i</var> 行表示 quark 在第 <var>i</var> 次是否砸到 eshock, 砸到的输出 YES, 否则输出 NO.
+</p>
+
+<p><strong>样例输入</strong></p>
+<pre>
+4
+3 3 -1 -1 1
+0 3 0 -1 1
+10 2 -1 0 3
+3 3 1 1 1
+</pre>
+
+<p><strong>样例输出</strong></p>
+<pre>
+YES
+YES
+YES
+NO
+</pre>
+
+<p><strong>提示</strong></p>
+<p>
+使用 C 语言来解决简单的数学问题是编程的重要技能之一.
+这个问题是不是可以看成是某个一元二次方程解的判定问题?
+</p>
+
