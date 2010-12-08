@@ -14,5 +14,6 @@ def Dir.mkdir_as_needed(path)
   end
 end
 
+
 # Initialize the rails application
 CContest::Application.initialize!

@@ -4,6 +4,8 @@ class ContestsController < ApplicationController
   before_filter :privileged_user, :only => [:edit, :update, :new, :create, :destroy]
   before_filter :correct_time, :only => [:show]
 
+  #caches_page :ranklist
+
   def index
     @title = '比赛列表'
     @contests = Contest.all
@@ -18,6 +20,7 @@ class ContestsController < ApplicationController
   end
 
   def edit
+    expire_page :action => 'ranklist'
     @contest = Contest.find(params[:id])
   end
 
@@ -37,6 +40,13 @@ class ContestsController < ApplicationController
   def destroy
     @contest = Contest.find(params[:id])
     @contest.destroy
+  end
+
+  def ranklist
+    @title = '比赛排名'
+    @contest = Contest.find(params[:id])
+    @gen_time = Time.now
+    expires_in 1.minute 
   end
 
   private

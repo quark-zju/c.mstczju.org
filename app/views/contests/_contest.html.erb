@@ -2,4 +2,18 @@
   <td><%= link_to contest.name, contest %></td>
   <td><%= contest.start_time %></td>
   <td><%= contest.end_time %></td>
+  <td>
+    <%=
+      if Time.now < contest.start_time
+        '未开始'
+      elsif Time.now > contest.end_time
+        '已结束'
+      else
+        '进行中'
+      end 
+    %>
+  </td>
+  <td>
+    <%= link_to('查看', :action => 'ranklist', :id => contest) if Time.now >= contest.start_time %>
+  </td>
 </tr>
