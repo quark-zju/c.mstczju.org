@@ -17,5 +17,7 @@ freeze board
 
 prevent too quick submission -- done
 
+prevent too long compile error info
+
 judge
 

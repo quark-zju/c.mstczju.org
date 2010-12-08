@@ -1,0 +1,21 @@
+MSTC C Contest
+name44 [登出]
+
+    * 首页
+    * 比赛列表
+    * 当前排名
+    * 提交代码
+    * 最近提交
+    * 修改资料
+
+ID 	题号 	用户 	评测结果 	提交时间 	内存 	时间 	语言
+26 	海豹行动 	nick44 	正在评测 	2010-12-08 18:13:15 			C
+查看源代码
+版权所有 (C) 2010 浙江大学 MSTC
+帮助 · 关于我们
+
+--- !map:ActiveSupport::HashWithIndifferentAccess 
+action: show
+controller: submissions
+id: "26"
+

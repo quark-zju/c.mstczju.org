@@ -5,7 +5,11 @@
   <td><%= link_to submission.user.nick, submission.user %></td>
 
   <td><span class="judgeRes-<%= submission.result %>">
-      <%= judge_results[submission.result || 0] %>
+      <% if submission.has_additional_log? and (is_admin? or (submission.owner?(current_user) and submission.result == 2)) %>
+        <%= link_to judge_results[submission.result || 0], :controller => "submissions", :action => "log", :id => submission %>
+      <% else %>
+        <%= judge_results[submission.result || 0] %>
+      <% end %>
   </span></td>
 
   <td><%= submission.created_at.strftime "%Y-%m-%d %H:%M:%S" %></td>

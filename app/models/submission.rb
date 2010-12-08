@@ -19,7 +19,7 @@ class Submission < ActiveRecord::Base
   default_scope :order => 'submissions.created_at DESC'
   
   attr_accessible :problem_id, :user_id, :result, :used_memory, :used_time, :lang, :visible_group, :code
-  attr_readonly :id
+  attr_readonly :id, :log
 
   belongs_to :user
   belongs_to :problem
@@ -44,9 +44,21 @@ class Submission < ActiveRecord::Base
     end
     @code
   end
+  
+  def log
+    if @log.nil? and not self.id.nil?
+      # load from file
+      @log = File.read "#{path}/log"
+    end
+    @log
+  end
 
   def owner?(test_user)
     self.user == test_user 
+  end
+
+  def has_additional_log?
+    File.exist?("#{path}/log") 
   end
 
   private

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101207111100) do
+ActiveRecord::Schema.define(:version => 20101208092555) do
 
   create_table "contests", :force => true do |t|
     t.string   "name"
@@ -68,6 +68,21 @@ ActiveRecord::Schema.define(:version => 20101207111100) do
   add_index "submissions", ["result"], :name => "index_submissions_on_result"
   add_index "submissions", ["user_id"], :name => "index_submissions_on_user_id"
   add_index "submissions", ["visible_group"], :name => "index_submissions_on_visible_group"
+
+  create_table "user_caches", :force => true do |t|
+    t.integer  "problem_id"
+    t.integer  "user_id"
+    t.datetime "first_accepted_time"
+    t.integer  "attempt"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "user_caches", ["attempt"], :name => "index_user_caches_on_attempt"
+  add_index "user_caches", ["first_accepted_time"], :name => "index_user_caches_on_first_accepted_time"
+  add_index "user_caches", ["problem_id"], :name => "index_user_caches_on_problem_id"
+  add_index "user_caches", ["user_id", "problem_id"], :name => "index_user_caches_on_user_id_and_problem_id"
+  add_index "user_caches", ["user_id"], :name => "index_user_caches_on_user_id"
 
   create_table "users", :force => true do |t|
     t.string   "name"

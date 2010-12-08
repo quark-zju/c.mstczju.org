@@ -1,7 +1,7 @@
 <div id='problemInfo' class='rfloat'>
 时间限制: <%= @problem.time_limit %> 秒 <br>
 内存限制: <%= @problem.memory_limit %> MB <br>
-<%= "来源: #{@problem.source}" if @problem.source %>
+<%= "来源: #{@problem.source}" if @problem.source and @problem.source.length > 1 %>
 </div>
 <h1><%= @problem.title %></h1>
 <div id='problemContent'>

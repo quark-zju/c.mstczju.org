@@ -1,0 +1,15 @@
+#include <stdio.h>
+char a[32][1000][1000][1000];
+int main()
+{
+	char* p = malloc(1000);
+        int n;
+	int i;
+	scanf("%d", &n);
+	while(n--)
+	{
+		scanf("%d", &i);
+		printf("%d\n", i>0?i*(i+1)/2:i*(1-i)/2+1);
+	}
+//for(;;);
+}

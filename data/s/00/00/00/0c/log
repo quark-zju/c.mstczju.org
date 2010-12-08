@@ -1,2 +1,1 @@
-/tmp/ccPJHBaI.o: In function `main':
-code.c:(.text+0x40): warning: the `gets' function is dangerous and should not be used.
+./code.c:1:1: error: expected '=', ',', ';', 'asm' or '__attribute__' at end of input

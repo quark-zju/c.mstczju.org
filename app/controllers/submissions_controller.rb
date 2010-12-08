@@ -3,7 +3,8 @@
 class SubmissionsController < ApplicationController
   before_filter :privileged_user, :only => [:edit, :update, :destroy]
   before_filter :signed_in_user
-  before_filter :correct_user, :only => [:source]
+  before_filter :correct_view_source_user, :only => [:source]
+  before_filter :correct_view_log_user, :only => [:log]
 
   def index
     @title = '最近提交'
@@ -94,15 +95,26 @@ class SubmissionsController < ApplicationController
     @title = '源代码' 
   end
 
+  def log
+    @title = '详细信息'
+  end
+
   private
 
   def privileged_user
     redirect_to root_path, :flash => { :error => '您无权访问该页' } unless is_admin?
   end
 
-  def correct_user
+  def correct_view_source_user
     @submission = Submission.find(params[:id])
     redirect_to root_path, :flash => { :error => '您无权查看该提交代码' } unless @submission.owner?(current_user) || is_admin?
+  end
+
+  def correct_view_log_user
+    @submission = Submission.find(params[:id])
+    unless @submission.has_additional_log? and ((@submission.owner?(current_user) and @submission.result == 2) or is_admin?)
+      redirect_to root_path, :flash => { :error => '您无权查看该页面' } 
+    end
   end
 
   def signed_in_user

@@ -55,8 +55,8 @@ while true do
 								 :conditions => "result = 0")
 
 	if not_judged.size == 0
-		sleep_time += 1
-		sleep_time = 30 if sleep_time > 30
+		sleep_time += 0.5
+		sleep_time = 5 if sleep_time > 5
 	else
 		sleep_time = 0.1
 	end
@@ -68,14 +68,12 @@ while true do
 
 		# run judge
 		output = `ssh #{j} '~/run.rb' '#{s.lang}' '#{submission_path(s.id)}' '#{problem_path(s.problem_id)}' '#{s.problem.time_limit}' '#{s.problem.memory_limit}'`
-		puts "output = #{output}"
 
 		# get result
-		stat, time, memory = 11, nil, nil
+		stat, time, memory = 11, nil, nil # 11: internal error
 		if output =~ /^Result = (?<stat>.*)$/
 			stat = $~[:stat].to_i
 		end
-		puts "HERE <---"
 
 		if stat == 3
 			# accept, get memory and time
@@ -84,9 +82,32 @@ while true do
 		else
 			# save result.lines[2..] to file
 			info = output.split("\n")[1..-1].join("\n")
-			File.open("#{submission_path(s.id)}/log", "w") { |f| f.puts info }
+			if info.length > 6
+				File.open("#{submission_path(s.id)}/log", "w") { |f| f.puts info }
+			end
 		end
 
+		# do not update anything when Internal Error
+		if stat != 11
+			# update submit count
+			accepted = (stat == 3)
+			submit_count, accept_count = s.problem.submit_count, s.problem.accept_count
+
+			accept_count += 1 if accepted
+			submit_count += 1
+
+			# update user_cache
+			user_cache = UserCache.find(:first, :conditions => [ "user_id = :u and problem_id = :p", { :u => s.user_id, :p => s.problem_id} ]) || UserCache.new(:user_id => s.user_id, :problem_id => s.problem_id)
+
+			if accepted
+				user_cache.first_accepted_time ||= s.created_at
+			elsif user_cache.first_accepted_time.nil?
+				user_cache.attempt = (user_cache.attempt or 0) + 1
+			end
+			user_cache.save
+		end
+
+		s.problem.update_attributes!(:submit_count => submit_count, :accept_count => accept_count)
 		s.update_attributes!(:result => stat, :used_time => time, :used_memory => memory)
 	end
 end

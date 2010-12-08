@@ -19,17 +19,4 @@ class Contest < ActiveRecord::Base
   has_many :problem_links, :dependent => :destroy
   has_many :problems, :through => :problem_links
 
-  def moderate_by?(user)
-    if user 
-      if user.group =~ /\badmin\b/
-        true
-      elsif moderate_group and not moderate_group.empty? and current_user.group =~ /\b#{moderate_group}\b/
-        true
-      else
-        false
-      end
-    else
-      false
-    end
-  end
 end

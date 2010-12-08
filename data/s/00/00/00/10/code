@@ -1,0 +1,22 @@
+#include<stdio.h>
+#include<math.h>
+int main()
+{
+int t,i;
+double x,y,vx,vy,r;
+scanf("%d",&t);
+for(i=0;i<t;i++){
+ scanf("%lf%lf%lf%lf%lf",&x,&y,&vx,&vy,&r);
+// if((fabs(vx*y-vy*x),2)/sqrt(pow(vx,2)+pow(vy,2))>fabs(r))printf("NO\n");
+
+ if(pow(fabs(vx*y-vy*x),2)/(pow(vx,2)+pow(vy,2))>r*r)printf("NO\n");
+ //if(pow(vx*y-vy*x,2)/(pow(vx,2)+pow(vy,2))>r*r)
+	//printf("NO\n");
+ else {
+ if(x*vx+y*vy<=0)printf("YES\n");
+   else printf("NO\n");
+	//if (pow(x + vx, 2) + pow(y + vy, 2) <= x * x + y * y)printf("YES\n");
+	//else printf("NO\n");
+ }
+}
+}

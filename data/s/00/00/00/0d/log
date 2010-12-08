@@ -1,0 +1,2 @@
+Errno::ENOENT: No such file or directory - '/tmp/ram/judge1_run_output'
+["/home/judge/run.rb:125:in `read'", "/home/judge/run.rb:125:in `<main>'"]
