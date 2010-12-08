@@ -45,7 +45,7 @@ class UsersController < ApplicationController
     user_params = params[:user]
     verify_password = user_params[:verify_password]
     if not @user.has_password?(verify_password) then
-      flash[:error] = "旧密码不正确"
+      flash.now[:error] = "旧密码不正确"
       render 'edit'
       return
     else
