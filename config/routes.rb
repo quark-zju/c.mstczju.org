@@ -16,7 +16,8 @@ CContest::Application.routes.draw do
 
   match '/about', :to => 'pages#about'
   match '/help', :to => 'pages#help'
-  match '/ranklist', :to => 'pages#ranklist'
+  match '/refresh', :to => 'pages#refresh'
+  match '/ranklist', :to => 'contests#ranklist', :id => 1
 
   root :to => 'pages#home'
 

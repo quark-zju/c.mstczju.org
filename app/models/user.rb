@@ -21,7 +21,7 @@ class User < ActiveRecord::Base
   attr_accessor :password, :verify_password
   attr_accessible :signature, :password, :password_confirmation, :nick
   attr_accessible :name, :group, :email
-  attr_readonly :id
+  attr_readonly :id, :created_at, :updated_at
   #attr_readonly :name, :group, :email
 
   has_many :submissions, :dependent => :destroy

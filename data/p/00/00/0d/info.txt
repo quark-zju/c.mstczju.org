@@ -1,2 +1,2 @@
 -- Title: 整数求和
-limits = { time = 1, memory = 32 }
+limits = { time = 3, memory = 32 }

@@ -1,15 +1,11 @@
 #include <stdio.h>
-#define M 190
-#define L 1000
-
-char s[M][L];
-int f, r, n;
-
-int main(int argc, char const* argv[])
+int main()
 {
-	scanf("%d ", &n);
-	while(gets(s[f])) if (s[f][1]) f =  (f+1) % M; else r = (r+1)%M;
-	puts(s[(r + n - 1) % M]);
-	
-	return 0;
+int n,i,t;
+scanf("%d",&n);
+for (i=0;i<n;i++)
+{
+scanf("%d",&t);
+printf("%d\n",t*(t+1)/2);
+}
 }

@@ -1,2 +1,2 @@
 -- Title: Skating
-limits = { time = 15, memory = 32 }
+limits = { time = 3, memory = 32 }

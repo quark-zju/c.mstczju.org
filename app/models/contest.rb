@@ -15,9 +15,11 @@
 #
 
 class Contest < ActiveRecord::Base
-  attr_accessible :start_time, :end_time, :frozen_time, :visible_group, :moderate_group, :path, :name
+  attr_accessible :start_time, :end_time, :freeze_time, :visible_group, :moderate_group, :path, :name
   has_many :problem_links, :dependent => :destroy
   has_many :problems, :through => :problem_links
+
+  validates :start_time, :presence => true
 
   def moderate_by?(user)
     if user 

@@ -1,9 +1,32 @@
 <h1><%= @title %></h1>
-<% cache do %>
-<p>最后更新：<%= @gen_time %></p>
-<p>现在时间：<%= Time.now %></p>
-<% end %>
-<p>最后更新：<%= @gen_time %></p>
-<p>现在时间：<%= Time.now %></p>
+<p>更新时间：<%= @gen_time %></p>
+<table>
+  <tr>
+    <th>排名</th>
+    <th>用户</th>
+    <th>通过题目</th>
+    <th>罚时(分钟)</th>
+    <th>奖品</th>
+  </tr>
+  <% if @rank.size >= 1 %>
+    <% rank_counter, rank_show, last_rank = 1, 1, @rank.first %>
+    <% @rank.each do |k, v| %>
+      <tr>
+        <%
+          rank_show = rank_counter if (last_rank <=> v) != 0
+          last_rank = v
+          rank_counter += 1
+        %>
+        <td><%= rank_show %></td>
+        <td><%= link_to v.user_name, :controller => 'users', :action => 'show', :id => v.user_id %></td>
+        <td><%= v.solved %></td>
+        <td><%= v.penalty.round(2) %></td>
+        <td><%= price_for rank_show 
+          %></td>
+      </tr>
+    <% end %>
+  <% end %>
+</table>
+
 
 

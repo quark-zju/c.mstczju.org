@@ -6,6 +6,8 @@ class SubmissionsController < ApplicationController
   before_filter :correct_view_source_user, :only => [:source]
   before_filter :correct_view_log_user, :only => [:log]
 
+  # since submissions are will_paginated, it can not be cached directly
+
   def index
     @title = '最近提交'
     @submissions = Submission.paginate(:page => params[:page])
@@ -45,16 +47,20 @@ class SubmissionsController < ApplicationController
 
     # check problem_id time
     unless is_admin?
-      permitted, now, problem = false, Time.now, Problem.find(submission_params[:problem_id])
-      problem.contests.each do |contest|
-        if now >= contest.start_time and now <= contest.end_time
-          permitted = true
-          break
+      # not that Problem.find may cause error, use find_by_id instead
+      permitted, now, problem = false, Time.now, Problem.find_by_id(submission_params[:problem_id])
+      unless problem.nil?
+        problem.contests.each do |contest|
+          if now >= contest.start_time and now <= contest.end_time
+            permitted = true
+            break
+          end
         end
-      end
-      if not permitted
-        redirect_to root_path, :flash => { :error => '目前时间不能提交该题目代码' }
-        return
+        if not permitted
+          redirect_to root_path, :flash => { :error => '目前时间不能提交该题目代码' }
+          return
+        end
+        # else, submission model will validates problem's existance
       end
     end
 

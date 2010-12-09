@@ -1,2 +1,2 @@
 -- Title: 拯救苦力光哥
-limits = { time = 1, memory = 16 }
+limits = { time = 3, memory = 32 }

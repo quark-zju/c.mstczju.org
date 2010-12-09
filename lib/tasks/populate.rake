@@ -16,16 +16,20 @@ namespace :db do
       User.create!(:name => "name#{n}",
                    :nick => "nick#{n}",
                    :email => "test#{n}@null.com",
+                   :group => "contestant",
                    :password => "foobar",
                    :password_confirmation => "foobar")
     end
     Contest.create!(:start_time => 3.days.ago, 
                     :freeze_time => -1.days.ago,
+                    :visible_group => 'contestant',
                     :end_time => -30.days.ago, :name => '没有巧克力的比赛')
     Contest.create!(:start_time => -8990.days.ago, 
                     :freeze_time => -8999.days.ago,
+                    :visible_group => 'contestant',
                     :end_time => -9000.days.ago, 
                     :name => '下一代人的比赛')
+
     ["抢整",
       "让寒仔gg和水寒mm聊天吧",
       "拯救苦力光哥",
