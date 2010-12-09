@@ -152,3 +152,10 @@ a:hover {
 .green {
   color: green;
 }
+.hidden {
+  display: none;
+}
+.code {
+  border: 1px solid #ddd;
+  background: #fff;
+}

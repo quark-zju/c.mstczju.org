@@ -21,6 +21,14 @@ class Contest < ActiveRecord::Base
 
   validates :start_time, :presence => true
 
+  def started?
+    Time.now > start_time
+  end
+
+  def frozen?
+    Time.now > freeze_time and Time.now < end_time
+  end
+
   def moderate_by?(user)
     if user 
       if user.group =~ /\badmin\b/

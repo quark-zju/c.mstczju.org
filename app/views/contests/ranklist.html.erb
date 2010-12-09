@@ -10,7 +10,7 @@
     <th>奖品</th>
   </tr>
   <% 
-    price_count_reset
+    prize_count_reset
     if @rank.size >= 1 
   %>
     <% rank_counter, rank_shown, last_rank = 1, 1, @rank.first %>
@@ -24,14 +24,14 @@
         <td><%= rank_shown %></td>
         <td><%= link_to v.user_name, :controller => 'users', :action => 'show', :id => v.user_id %></td>
         <td><%= v.solved %></td>
-        <td><%= v.penalty.round(2) %></td>
-        <td><%= price_for rank_shown if v.solved > 0 %></td>
+        <td><%= sprintf('%.2f', v.penalty) %></td>
+        <td><%= prize_for rank_shown if v.solved > 0 %></td>
       </tr>
     <% end %>
   <% end %>
 </table>
 <p>比赛名称：<%= @contest.name %><br>
-更新时间：<%= @gen_time.strftime "%Y-%m-%d %H:%M:%S" %></p>
+更新时间：<%= @update_time %></p>
 
 
 

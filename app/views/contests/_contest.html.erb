@@ -14,6 +14,10 @@
     %>
   </td>
   <td>
-    <%= link_to('查看', :action => 'ranklist', :id => contest) if Time.now >= contest.start_time %>
+    <%= link_to('查看', :action => 'ranklist', :id => contest) if contest.started? %>
   </td>
+  <% if is_admin? %>
+    <td><%= link_to 'Edit', edit_contest_path(contest) %></td>
+    <td><%= link_to 'Destroy', contest, :confirm => 'Are you sure?', :method => :delete %></td>
+  <% end %>
 </tr>

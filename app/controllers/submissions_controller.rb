@@ -28,7 +28,7 @@ class SubmissionsController < ApplicationController
 
   def rejudge
     @submission = Submission.find(params[:id])
-    @submission.update_attributes!(:result => 0)
+    @submission.update_attributes!(:result => 0, :used_memory => nil, :used_time => nil)
     redirect_to :back
   end
 
@@ -52,22 +52,25 @@ class SubmissionsController < ApplicationController
     }
 
     # check problem_id time
-    unless is_admin?
-      # not that Problem.find may cause error, use find_by_id instead
-      permitted, now, problem = false, Time.now, Problem.find_by_id(submission_params[:problem_id])
-      unless problem.nil?
+    # not that Problem.find may cause error, use find_by_id instead
+    permitted, now, problem = is_admin?, Time.now, Problem.find_by_id(submission_params[:problem_id])
+    unless problem.nil?
+      unless permitted
         problem.contests.each do |contest|
           if now >= contest.start_time and now <= contest.end_time
             permitted = true
             break
           end
         end
-        if not permitted
-          redirect_to root_path, :flash => { :error => '目前时间不能提交该题目代码' }
-          return
-        end
-        # else, submission model will validates problem's existance
       end
+      if not permitted
+        redirect_to root_path, :flash => { :error => '目前时间不能提交该题目代码' }
+        return
+      end
+      # else, submission model will validates problem's existance
+    else
+      redirect_to new_submission_path, :flash => { :error => '无效的题目ID' }
+      return
     end
 
     submission_params[:result] = if is_admin?

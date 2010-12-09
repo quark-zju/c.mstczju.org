@@ -4,7 +4,8 @@
     <td><%= UserCache.find_by_user_and_problem(current_user, problem).attempt_html %></td>
   <% end %>
   <td><%= link_to problem_link.name, problem %></td>
-  <td><%= problem.title %></td>
+  <td><%= link_to problem.title, problem %></td>
   <td><%= problem.accept_count %></td>
   <td><%= problem.submit_count %></td>
+  <td><%= link_to '提交', :controller => 'submissions', :action => 'new', :problem_id => problem.id %></td>
 </tr>

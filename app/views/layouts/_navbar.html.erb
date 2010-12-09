@@ -5,7 +5,6 @@
     <li><%= link_to "当前排名", ranklist_path %></li>
     <li><%= link_to "最近提交", submissions_path %></li>
     <% if signed_in? %>
-      <li><%= link_to "提交代码", new_submission_path %></li>
       <li><%= link_to "修改资料", edit_user_path(current_user) %></li>
     <% end %>
     <% if is_admin? %>

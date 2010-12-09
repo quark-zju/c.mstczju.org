@@ -1,0 +1,12 @@
+#include <stdio.h>
+
+ int main(int argc, char**argv)
+ {
+ int i;
+ char a[10000000];
+ for (i = 0; i < 10000000; i ++) {
+    a[i] = (char)((i % 4) + 3);
+if (a[i] == argc) printf("hello");
+}
+ return 0;
+ }

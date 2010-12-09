@@ -1,0 +1,15 @@
+#include <stdio.h>
+#define M 19000
+#define L 1000
+
+char *s[M];
+int f, r, n;
+
+int main(int argc, char const* argv[])
+{
+int i;
+for(i=0;i<M;i++) s[i]=(char*)malloc(L);
+
+
+return 0;
+}

@@ -36,6 +36,11 @@ class ContestsController < ApplicationController
 
   def update
     @contest = Contest.find(params[:id])
+    if @contest.update_attributes(params[:contest])
+      redirect_to(@contest, :notice => 'Contest was successfully updated.') 
+    else
+      render :action => "edit" 
+    end
   end
 
   def destroy
@@ -46,7 +51,6 @@ class ContestsController < ApplicationController
   def ranklist
     @title = '比赛排名'
     @contest = Contest.find(params[:id])
-    @gen_time = DateTime.now
     expires_in 1.minute 
 
     # TODO : use cache
@@ -58,10 +62,12 @@ class ContestsController < ApplicationController
       problem_filters[link.problem_id] = true
     end
 
+    frozen = false
     from_time = @contest.start_time.to_datetime
     till_time = if Time.now > @contest.end_time
                   @contest.end_time.to_datetime
-                elsif not @contest.freeze_time.nil?
+                elsif Time.now > @contest.freeze_time
+                  frozen = true
                   @contest.freeze_time.to_datetime
                 else
                   DateTime.now
@@ -87,8 +93,12 @@ class ContestsController < ApplicationController
       end
     end
 
+    # TODO save to cache
+
+     
     # set @rank to view
     @rank = (ranking.sort_by { |k, v| v }).reverse
+    @update_time = "#{till_time.strftime '%Y-%m-%d %H:%M:%S'} #{'(此为冻结时排名，非最新排名)' if frozen}"
   end
 
   # clean cache

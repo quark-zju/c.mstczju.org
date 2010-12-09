@@ -3,13 +3,14 @@
 
   <div class="field">
     <%= f.label :problem_id, '题目ID' %><br />
+    <span>和<b>标号</b>没有联系</span><br />
     <% if params[:problem_id] %>
       <%= f.text_field :problem_id, :value => params[:problem_id] %>
     <% else %>
       <%= f.text_field :problem_id %>
     <% end %>
   </div>
-  <div class="field">
+  <div class="field hidden">
     <%= f.label :lang, '语言' %><br />
     <%= f.select :lang, ['C'] %>
   </div>

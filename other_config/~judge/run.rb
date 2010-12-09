@@ -47,7 +47,7 @@ begin
 	clean_up
 
 	# === COMPILE ==========================================================================
-	output_result(2, "无效语言") unless File.exist?("./lang/#{lang}/compile.sh")
+	output_result(2, "INVALID_LANGUAGE") unless File.exist?("./lang/#{lang}/compile.sh")
 	FileUtils.cp "#{submission_path}/code", "#{sandbox_root}/tmp/code"
 	FileUtils.cp "./lang/#{lang}/compile.sh", "#{sandbox_root}/tmp/compile.sh"
 	File.chmod 0777, "#{sandbox_root}/tmp/compile.sh"

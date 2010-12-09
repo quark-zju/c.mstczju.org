@@ -1,0 +1,10 @@
+#include <stdio.h>
+
+ int main()
+ {
+ int i;
+ char a[10000000];
+ for (i = 0; i < 10000000; i ++)
+    a[i] = (char)i;
+ return 0;
+ }

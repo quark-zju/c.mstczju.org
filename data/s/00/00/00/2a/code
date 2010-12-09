@@ -1,0 +1,11 @@
+#include <stdio.h>
+
+ int main()
+ {
+ int i;
+ char *a = malloc(10000000);
+ for (i = 0; i < 10000000; i += 1000) {
+     a[i] = (char)i%256;
+ }
+ return a[10000];
+ }

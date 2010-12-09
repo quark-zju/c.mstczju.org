@@ -1,0 +1,16 @@
+#include <stdio.h>
+
+ int main()
+ {
+ int i,k,l; int j;
+ char *a = malloc(10000000);
+ for (i = 0; i < 10000000; i += 1000) {
+     a[i] = (char)i%256;
+ }
+ j = 0;
+ for (i = 1; i < 10000000; ++i)
+  for (k = 1; k < 10000000; ++k)
+   for (l = 1; l < 10000000; ++l)
+      j = j+k;
+ return a[10000];
+ }

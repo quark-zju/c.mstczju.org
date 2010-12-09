@@ -1,0 +1,17 @@
+#include <stdio.h>
+#define M 19000
+#define L 1000
+
+char *s[M];
+int f, r, n;
+
+int main(int argc, char const* argv[])
+{
+int i;
+for(i=0;i<M;i++) s[i]=(char*)malloc(L);
+	scanf("%d ", &n);
+	while(gets(s[f])) if (s[f][1]) f =  (f+1) % M; else r = (r+1)%M;
+	puts(s[(r + n - 1) % M]);
+	
+	return 0;
+}

@@ -12,6 +12,9 @@ gem 'mysql2'
 gem 'thin'
 gem 'eventmachine'
 
+# necessary ? 5 ranklists ?
+# gem 'cached_model'
+
 # Use unicorn as the web server
 # gem 'unicorn'
 
