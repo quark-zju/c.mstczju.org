@@ -14,7 +14,7 @@ module ApplicationHelper
     image_tag("logo.png", :alt => "MSTC C Contest")
   end
 
-  def truncate(string, length = 9)
+  def shorten(string, length = 9)
     if string.length <= length
       string
     else

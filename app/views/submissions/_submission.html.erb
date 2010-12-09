@@ -1,7 +1,7 @@
 <tr>
   <% can_view_details = submission.owner?(current_user) || is_admin? %>
   <td><%= link_to submission.id, submission %></td>
-  <td><%= link_to truncate(submission.problem.title), submission.problem %></td>
+  <td><%= link_to shorten(submission.problem.title), submission.problem %></td>
   <td><%= link_to submission.user.nick, submission.user %></td>
 
   <td><span class="judgeRes-<%= submission.result %>">

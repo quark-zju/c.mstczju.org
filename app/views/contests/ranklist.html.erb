@@ -22,7 +22,7 @@
           rank_counter += 1
         %>
         <td><%= rank_shown %></td>
-        <td><%= link_to v.user_name, :controller => 'users', :action => 'show', :id => v.user_id %></td>
+        <td><%= link_to shorten(v.user_name), :controller => 'users', :action => 'show', :id => v.user_id %></td>
         <td><%= v.solved %></td>
         <td><%= sprintf('%.2f', v.penalty) %></td>
         <td><%= prize_for rank_shown if v.solved > 0 %></td>
