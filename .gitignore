@@ -4,3 +4,5 @@ log/*.log
 tmp/**/*
 *.swp
 .*.swp
+data/
+lib/tasks/populate.rake

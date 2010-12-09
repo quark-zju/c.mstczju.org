@@ -7,5 +7,7 @@
   <td><%= link_to problem.title, problem %></td>
   <td><%= problem.accept_count %></td>
   <td><%= problem.submit_count %></td>
-  <td><%= link_to '提交', :controller => 'submissions', :action => 'new', :problem_id => problem.id %></td>
+  <% if signed_in? %>
+    <td><%= link_to '提交', :controller => 'submissions', :action => 'new', :problem_id => problem.id %></td>
+  <% end %>
 </tr>

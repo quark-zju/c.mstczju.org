@@ -9,7 +9,9 @@
     <th>标题</th>
     <th>通过数</th>
     <th>提交数</th>
-    <th>提交</th>
+    <% if signed_in? %>
+      <th></th>
+    <% end %>
   </thead>
   <%= render @contest.problem_links %>
 </table>
