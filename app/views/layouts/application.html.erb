@@ -19,6 +19,12 @@
         <% flash.each do |key, value| %>
           <div class="flash <%= key %>"><%= value %></div>
         <% end %>
+        <% if File.exist? "#{RAILS_ROOT}/public/notice.short" %>
+          <div class="flash notice">
+            <%= File.read("#{RAILS_ROOT}/public/notice.short") %>
+            <%= link_to("[查看详细]", "notice.html") if File.exist? "#{RAILS_ROOT}/public/notice.html" %> 
+          </div>
+        <% end %>
         <%= yield %>
       </div>
 

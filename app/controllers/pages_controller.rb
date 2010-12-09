@@ -13,9 +13,5 @@ class PagesController < ApplicationController
     @title = '帮助'
   end
 
-  def ranklist
-    @title = '当前排名'
-    # hardcoded currently
-  end
 
 end

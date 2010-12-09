@@ -16,7 +16,7 @@
 #
 
 class Submission < ActiveRecord::Base
-  default_scope :order => 'submissions.created_at DESC'
+  default_scope :order => 'submissions.id DESC, submissions.created_at DESC'
   
   attr_accessible :problem_id, :user_id, :result, :used_memory, :used_time, :lang, :visible_group, :code
   attr_readonly :id, :log, :created_at
@@ -74,10 +74,6 @@ class Submission < ActiveRecord::Base
       File.open("#{path}/code", 'w') do |info|
         info.print @code 
       end
-    end
-    if File.exist? "#{path}/log"
-      # try to remove that log
-      File.delete "#{path}/log" rescue nil
     end
   end
 

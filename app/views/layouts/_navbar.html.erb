@@ -7,6 +7,7 @@
     <% if signed_in? %>
       <li><%= link_to "修改资料", edit_user_path(current_user) %></li>
     <% end %>
+    <li><%= link_to "帮助", help_path %></li>
     <% if is_admin? %>
       <hr class="nomarginbottom">
       <li><%= link_to "题目列表", problems_path %></li>

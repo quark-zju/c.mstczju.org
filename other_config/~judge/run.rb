@@ -1,5 +1,5 @@
 #!/usr/bin/ruby
-# coding: utf-8
+# encoding: utf-8
 
 require 'fileutils'
 
@@ -84,7 +84,7 @@ begin
 		:OUTPUT => "'#{user_prefix}_run_output'", :ERROR => "'/dev/null'",
 		:INPUT => "'#{ENV['PWD']}/#{problem_path}/input'",
 		:UID => uid + 10000, :GID => uid + 1000, :TIME => time_limit, :MEMORY => memory_limit,
-		:DEADLINE => (time_limit.to_f + 3).to_s, :CHDIR => "'/tmp'", 
+		:DEADLINE => (time_limit.to_f * 1.5 + 1).to_s, :CHDIR => "'/tmp'", 
 		:CHROOT => "'#{sandbox_root}'",
 	}
 	subs.each do |k, v|
@@ -121,6 +121,7 @@ begin
 	# === JUDGE ============================================================================
 	# direct compare by default
 	# compare "#{problem_path}/output" with "#{user_prefix}_run_output"
+	# TODO allow custom comparer, or use native comparer
 	out_std = File.read("#{problem_path}/output")
 	out_user = File.read "#{user_prefix}_run_output"
 
@@ -135,13 +136,18 @@ begin
 		memory = $~[:memory].to_f * 10.24 
 	end
 
-	judge_result = if out_std == out_user
-					   3
-				   elsif out_std.gsub(/\W/, '') == out_user.gsub(/\W/, '')
-					   4
-				   else
-					   5
-				   end
+	begin
+		judge_result = if out_std == out_user
+						   3
+					   elsif out_std.gsub(/\W/, '') == out_user.gsub(/\W/, '')
+						   4
+					   else
+						   5
+					   end
+	rescue
+		# gsub may cause encoding error
+		judge_result = 5
+	end
 	# Time: 0.001 s, Memory: 0.1 MB
 	output_result judge_result, "Time = #{time}\nMemory = #{memory}"
 
@@ -149,5 +155,5 @@ begin
 	clean_up
 
 rescue => ex
-	output_result 11, "#{ex.class}: #{ex.message}\n#{ex.backtrace}"
+	output_result 11, "Ruby exception: #{ex.class}: #{ex.message}\n#{ex.backtrace}"
 end

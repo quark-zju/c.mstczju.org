@@ -36,7 +36,7 @@ class SubmissionsController < ApplicationController
     # reject quick submissions
     next_submit_limit = $next_submit_limits[current_user.id] || (Time.now - 1)
     $next_submit_limits.clear if $next_submit_limits.size >= 1024
-    $next_submit_limits[current_user.id] = Time.now + 4 + rand(5)
+    $next_submit_limits[current_user.id] = Time.now + 5 + rand(7)
 
     if Time.now < next_submit_limit
         redirect_to root_path, :flash => { :error => '提交过于频繁，请稍候再试' }

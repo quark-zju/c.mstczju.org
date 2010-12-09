@@ -1,6 +1,6 @@
 <h1><%= @title %></h1>
 <table>
-  <tr>
+  <thead>
     <th>排名</th>
     <th>用户</th>
     <% %>
@@ -8,7 +8,7 @@
     <% %>
     <th>罚时(分钟)</th>
     <th>奖品</th>
-  </tr>
+  </thead>
   <% 
     prize_count_reset
     if @rank.size >= 1 

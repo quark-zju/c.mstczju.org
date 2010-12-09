@@ -29,3 +29,6 @@ ranklist full problems
 
 ranklist file cache
 
+global notify
+
+auto refresh
