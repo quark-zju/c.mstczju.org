@@ -1,7 +1,7 @@
 # coding: utf-8
 
 class SubmissionsController < ApplicationController
-  before_filter :privileged_user, :only => [:edit, :update, :destroy]
+  before_filter :privileged_user, :only => [:edit, :update, :destroy, :rejudge]
   before_filter :signed_in_user, :only => [:create, :new]
   before_filter :correct_view_source_user, :only => [:source]
   before_filter :correct_view_log_user, :only => [:log]
@@ -24,6 +24,12 @@ class SubmissionsController < ApplicationController
 
   def edit
     @submission = Submission.find(params[:id])
+  end
+
+  def rejudge
+    @submission = Submission.find(params[:id])
+    @submission.update_attributes!(:result => 0)
+    redirect_to :back
   end
 
   def create
@@ -118,6 +124,7 @@ class SubmissionsController < ApplicationController
 
   def correct_view_log_user
     @submission = Submission.find(params[:id])
+    # here, 2 is COMPILE_ERROR
     unless @submission.has_additional_log? and ((@submission.owner?(current_user) and @submission.result == 2) or is_admin?)
       redirect_to root_path, :flash => { :error => '您无权查看该页面' } 
     end

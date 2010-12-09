@@ -8,6 +8,7 @@ CContest::Application.routes.draw do
 
   # view source
   match 'submissions/:id/source' => 'submissions#source'
+  match 'submissions/:id/rejudge' => 'submissions#rejudge'
   match 'submissions/:id/log' => 'submissions#log'
   match 'contests/:id/ranklist' => 'contests#ranklist'
 

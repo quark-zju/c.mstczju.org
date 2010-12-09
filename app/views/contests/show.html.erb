@@ -13,6 +13,8 @@
   <%= render @contest.problem_links %>
 </table>
 
+<%= link_to '查看排名', :action => 'ranklist' %>
+
 <% if is_admin? %>
   <hr>
   <p>

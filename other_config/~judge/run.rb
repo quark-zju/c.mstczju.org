@@ -126,22 +126,24 @@ begin
 
 	out_std << "\n" unless out_std.end_with? "\n"
 	out_user << "\n" unless out_user.end_with? "\n"
-
-	if out_std == out_user
-		time = memory = 0
-		if result =~ /^\] TIME (?<time>.*)$/
-			time = $~[:time].to_f * 1000
-		end
-		if result =~ /^\] MEM (?<memory>.*)$/
-			memory = $~[:memory].to_f * 10.24 
-		end
-		# Time: 0.001 s, Memory: 0.1 MB
-		output_result 3, "Time = #{time}\nMemory = #{memory}"
-	elsif out_std.gsub(/\W/, '') == out_user.gsub(/\W/, '')
-		output_result 4
-	else
-		output_result 5
+		
+	time = memory = 0
+	if result =~ /^\] TIME (?<time>.*)$/
+		time = $~[:time].to_f * 1000
 	end
+	if result =~ /^\] MEM (?<memory>.*)$/
+		memory = $~[:memory].to_f * 10.24 
+	end
+
+	judge_result = if out_std == out_user
+					   3
+				   elsif out_std.gsub(/\W/, '') == out_user.gsub(/\W/, '')
+					   4
+				   else
+					   5
+				   end
+	# Time: 0.001 s, Memory: 0.1 MB
+	output_result judge_result, "Time = #{time}\nMemory = #{memory}"
 
 	# === CLEAN UP =========================================================================
 	clean_up

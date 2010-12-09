@@ -75,12 +75,13 @@ while true do
 			stat = $~[:stat].to_i
 		end
 
-		if stat == 3
-			# accept, get memory and time
-			time = $~[:time] if output =~ /^Time = (?<time>.*)$/
-				memory = $~[:memory] if output =~ /^Memory = (?<memory>.*)$/
-		else
-			# save result.lines[2..] to file (only consider first 4k characters
+		# get memory and time if exist
+		time = $~[:time] if output =~ /^Time = (?<time>.*)$/
+		memory = $~[:memory] if output =~ /^Memory = (?<memory>.*)$/
+
+		if stat == 2
+			# stat == 2 : COMPILE_ERROR
+			# write result.lines[2..] to file (only consider first 4k characters) as details log
 			info = output[0..4096].split("\n")[1..-1].join("\n")
 			info << "\n...." if output.length >= 4096 
 			if info.length > 6

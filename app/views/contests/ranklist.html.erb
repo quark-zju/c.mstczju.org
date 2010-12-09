@@ -1,32 +1,37 @@
 <h1><%= @title %></h1>
-<p>更新时间：<%= @gen_time %></p>
 <table>
   <tr>
     <th>排名</th>
     <th>用户</th>
+    <% %>
     <th>通过题目</th>
+    <% %>
     <th>罚时(分钟)</th>
     <th>奖品</th>
   </tr>
-  <% if @rank.size >= 1 %>
-    <% rank_counter, rank_show, last_rank = 1, 1, @rank.first %>
+  <% 
+    price_count_reset
+    if @rank.size >= 1 
+  %>
+    <% rank_counter, rank_shown, last_rank = 1, 1, @rank.first %>
     <% @rank.each do |k, v| %>
       <tr>
         <%
-          rank_show = rank_counter if (last_rank <=> v) != 0
+          rank_shown = rank_counter if (last_rank <=> v) != 0
           last_rank = v
           rank_counter += 1
         %>
-        <td><%= rank_show %></td>
+        <td><%= rank_shown %></td>
         <td><%= link_to v.user_name, :controller => 'users', :action => 'show', :id => v.user_id %></td>
         <td><%= v.solved %></td>
         <td><%= v.penalty.round(2) %></td>
-        <td><%= price_for rank_show 
-          %></td>
+        <td><%= price_for rank_shown if v.solved > 0 %></td>
       </tr>
     <% end %>
   <% end %>
 </table>
+<p>比赛名称：<%= @contest.name %><br>
+更新时间：<%= @gen_time.strftime "%Y-%m-%d %H:%M:%S" %></p>
 
 
 
