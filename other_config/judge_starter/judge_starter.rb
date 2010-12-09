@@ -48,23 +48,26 @@ threads = {}
 # single thread, feels better
 sleep_time = 0.1
 while true do
-	# find not judged
-	not_judged = Submission.find(:all,
-								 :order => 'created_at ASC', 
-								 :limit => 1,
-								 :conditions => "result = 0")
-
-	if not_judged.size == 0
-		sleep_time += 0.5
-		sleep_time = 5 if sleep_time > 5
-	else
-		sleep_time = 0.1
-	end
-	sleep sleep_time
-
-	not_judged.each do |s|
-		j = JUDGE_GROUP[JUDGE_NO]
+	# find not judged in transaction
+	j = nil
+	Submission.transaction do
+		s = Submission.find(:first,
+							:order => 'created_at ASC', 
+							:conditions => "result = 0")
+		if j.nil?
+			sleep_time += 0.5
+			sleep_time = 5 if sleep_time > 5
+		else
+			sleep_time = 0.0
+			break
+		end
+		sleep sleep_time
 		s.update_attributes!(:result => 1)
+	end
+
+	puts 'Begin judge ...'
+	# not_judged.each do |s|
+		j = JUDGE_GROUP[JUDGE_NO]
 
 		# run judge
 		output = `ssh #{j} '~/run.rb' '#{s.lang}' '#{submission_path(s.id)}' '#{problem_path(s.problem_id)}' '#{s.problem.time_limit}' '#{s.problem.memory_limit}'`
@@ -111,7 +114,7 @@ while true do
 
 		s.problem.update_attributes!(:submit_count => submit_count, :accept_count => accept_count)
 		s.update_attributes!(:result => stat, :used_time => time, :used_memory => memory)
-	end
+	# end
 end
 
 

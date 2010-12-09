@@ -1,0 +1,1 @@
+./code.c:1:7: error: expected '=', ',', ';', 'asm' or '__attribute__' before 'world'
