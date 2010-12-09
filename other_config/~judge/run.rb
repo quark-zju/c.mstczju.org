@@ -18,11 +18,11 @@ user_prefix = "/tmp/ram/#{user}"
 	"#{sandbox_root}/tmp/", 
 ]
 
-#['尚未评测', '正在评测', '编译错误', '答案正确', '格式错误', 
-# '答案错误', '运行超时', '内存溢出', '段错误', '运行出错', 
-# '非法代码', '内部错误']
+#    ['尚未评测', '正在评测', '编译错误', '答案正确', '格式错误', # 0 - 4
+#     '答案错误', '运行超时', '内存超限', '输出超限', '段错误',   # 5 - 9
+#     '运行出错', '内部错误']
 
-def output_result(code, result)
+def output_result(code, result = '')
 	puts "Result = #{code}"
 	puts result
 	# CLEAN UP
@@ -31,7 +31,7 @@ def output_result(code, result)
 end
 
 def file_content(file)
-	if File.exists?(file)
+	if File.exist?(file)
 		File.read(file) 
 	else
 		''
@@ -39,7 +39,7 @@ def file_content(file)
 end
 
 def clean_up
-	@files_to_cleanup.each { |f| FileUtils.remove_entry_secure f, true }
+	@files_to_cleanup.each { |f| FileUtils.remove_entry_secure(f, true) }
 end
 
 begin
@@ -54,8 +54,8 @@ begin
 	# Write compile policy
 	policy = File.read("./lang/#{lang}/policy_compile.lua")
 	subs = { 
-		:OUTPUT => "'/tmp/ram/#{user}_compile_output'",
-		:ERROR => "'/tmp/ram/#{user}_compile_error'",
+		:OUTPUT => "'#{user_prefix}_compile_output'",
+		:ERROR => "'#{user_prefix}_compile_error'",
 		:UID => uid + 10000, :GID => uid + 1000,
 		:TIME => 6.0, :MEMORY => 512.0,
 		:DEADLINE => 10.0,
@@ -70,16 +70,18 @@ begin
 	File.open(policy_path, 'w') { |f| f.print policy }
 	# Run compiler in sandbox (compiler path is in sandbox)
 	result = `sudo /sbin/zandbox "#{policy_path}" "/bin/sh" "/tmp/compile.sh"`
+
 	unless (result =~ /^\] STAT EXITTED$/) and File.exist?("#{sandbox_root}/tmp/run")
-		content = file_content("/tmp/compile_output") + file_content("/tmp/compile_error")
-		content = result if content.length < 5
+		# Wait file written
+		content = file_content("#{user_prefix}_compile_output") + file_content("#{user_prefix}_compile_error")
+		content += result if content.length < 5
 		output_result 2, content
 	end
 
 	# === RUN ==============================================================================
 	policy = File.read("./lang/#{lang}/policy_run.lua")
 	subs = {
-		:OUTPUT => "'#{user_prefix}_run_output'", :ERROR => "'#{user_prefix}_run_error'",
+		:OUTPUT => "'#{user_prefix}_run_output'", :ERROR => "'/dev/null'",
 		:INPUT => "'#{ENV['PWD']}/#{problem_path}/input'",
 		:UID => uid + 10000, :GID => uid + 1000, :TIME => time_limit, :MEMORY => memory_limit,
 		:DEADLINE => (time_limit.to_f + 3).to_s, :CHDIR => "'/tmp'", 
@@ -90,6 +92,7 @@ begin
 	end
 	policy_path = "/tmp/ram/#{user}_p2.lua" 
 	File.open(policy_path, 'w') { |f| f.print policy }
+	# run ld-linux.so.2 because it exists in both real and sandboxed fs
 	result = `sudo /sbin/zandbox "#{policy_path}" "/lib/ld-linux.so.2" "/tmp/run"`
 
 	stats_map = { 
@@ -97,19 +100,19 @@ begin
         :RESTRICTED_SYSCALL => 10,
         :MEMORY_LIMIT_EXCEED => 7,
         :TIME_LIMIT_EXCEED => 6,
-        :OUTPUT_LIMIT_EXCEED => 6, # TODO Assign OLE a number
-        :SEGMENTATION_FAULT => 8,
-        :MANUALLY_STOP => 9,
+        :OUTPUT_LIMIT_EXCEED => 8, # TODO Assign OLE a number
+        :SEGMENTATION_FAULT => 9,
+        :MANUALLY_STOP => 10,
         :PROCESS_LIMIT_EXCEED => 9,
 	}
 
-#['尚未评测', '正在评测', '编译错误', '答案正确', '格式错误', 
-# '答案错误', '运行超时', '内存溢出', '段错误', '运行出错', 
-# '非法代码', '内部错误']
+#    ['尚未评测', '正在评测', '编译错误', '答案正确', '格式错误', # 0 - 4
+#     '答案错误', '运行超时', '内存超限', '输出超限', '段错误',   # 5 - 9
+#     '运行出错', '内部错误']
 
 	if result =~ /\] STAT (?<stat>.*)$/
 		stat = $~[:stat]
-		output_result stats_map[stat.to_sym], stat if stats_map[stat.to_sym]
+		output_result(stats_map[stat.to_sym], stat) if stats_map[stat.to_sym]
 	else
 		output_result 11, 'Run final stat missing'
 	end
@@ -118,7 +121,7 @@ begin
 	# === JUDGE ============================================================================
 	# direct compare by default
 	# compare "#{problem_path}/output" with "#{user_prefix}_run_output"
-	out_std = File.read "#{problem_path}/output" 
+	out_std = File.read("#{problem_path}/output")
 	out_user = File.read "#{user_prefix}_run_output"
 
 	out_std << "\n" unless out_std.end_with? "\n"
@@ -144,5 +147,5 @@ begin
 	clean_up
 
 rescue => ex
-	output_result 11, "#{ex.class}: #{ex.message}"
+	output_result 11, "#{ex.class}: #{ex.message}\n#{ex.backtrace}"
 end

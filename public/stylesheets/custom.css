@@ -140,12 +140,15 @@ a:hover {
 .judgeRes-4 {
   color: #f09;
 }
-.judgeRes-5, .judgeRes-6, .judgeRes-7, .judgeRes-8, .judgeRes-9, .judgeRes-10, .judgeRes-11 {
+.judgeRes-5, .judgeRes-6, .judgeRes-7, .judgeRes-8, .judgeRes-9, .judgeRes-10 {
   color: green;
 }
-.judgeRes-12 {
+.judgeRes-11 {
   color: #444;
 }
-.admin {
+.admin, .red {
   color: red;
+}
+.green {
+  color: green;
 }

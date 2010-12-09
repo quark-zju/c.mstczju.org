@@ -1,5 +1,8 @@
 <tr>
   <% problem = problem_link.problem %> 
+  <% if signed_in? %>
+    <td><%= UserCache.find_by_user_and_problem(current_user, problem).attempt_html %></td>
+  <% end %>
   <td><%= link_to problem_link.name, problem %></td>
   <td><%= problem.title %></td>
   <td><%= problem.accept_count %></td>

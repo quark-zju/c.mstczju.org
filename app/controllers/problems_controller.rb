@@ -18,6 +18,7 @@ class ProblemsController < ApplicationController
 
   def edit
     @problem = Problem.find(params[:id])
+    expire_action 
   end
 
   def create

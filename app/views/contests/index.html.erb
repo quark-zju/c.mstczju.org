@@ -8,9 +8,9 @@
     <th>状态</th>
     <th>排名</th>
   </tr>
-
   <%= render @contests %>
 </table>
+<p>目前时间: <%= Time.now %></p>
 <% if is_admin? %>
   <hr>
   <%= link_to 'New Contest', new_contest_path %>

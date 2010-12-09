@@ -1,0 +1,3 @@
+/usr/lib/crt1.o: In function `_start':
+(.text+0x18): undefined reference to `main'
+collect2: ld returned 1 exit status

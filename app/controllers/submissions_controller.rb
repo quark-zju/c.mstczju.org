@@ -2,7 +2,7 @@
 
 class SubmissionsController < ApplicationController
   before_filter :privileged_user, :only => [:edit, :update, :destroy]
-  before_filter :signed_in_user
+  before_filter :signed_in_user, :only => [:create, :new]
   before_filter :correct_view_source_user, :only => [:source]
   before_filter :correct_view_log_user, :only => [:log]
 

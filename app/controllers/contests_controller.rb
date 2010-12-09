@@ -58,7 +58,7 @@ class ContestsController < ApplicationController
         flash.now[:notice] = '该比赛尚未开始'
         return
       end
-      redirect_to contests_path, :flash => { :error => '现在不是比赛时间' }
+      redirect_to contests_path, :flash => { :error => '现在还没有到比赛时间' }
     end
   end
 

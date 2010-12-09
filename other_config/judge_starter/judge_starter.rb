@@ -80,8 +80,9 @@ while true do
 			time = $~[:time] if output =~ /^Time = (?<time>.*)$/
 				memory = $~[:memory] if output =~ /^Memory = (?<memory>.*)$/
 		else
-			# save result.lines[2..] to file
-			info = output.split("\n")[1..-1].join("\n")
+			# save result.lines[2..] to file (only consider first 4k characters
+			info = output[0..4096].split("\n")[1..-1].join("\n")
+			info << "\n...." if output.length >= 4096 
 			if info.length > 6
 				File.open("#{submission_path(s.id)}/log", "w") { |f| f.puts info }
 			end
