@@ -1,2 +1,0 @@
--- Title: MSTC数学课堂
-limits = { time = 3, memory = 32 }

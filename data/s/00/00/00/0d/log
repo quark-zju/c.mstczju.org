@@ -1,6 +1,0 @@
-./code.c:1:1: error: stray '\344' in program
-./code.c:1:1: error: stray '\270' in program
-./code.c:1:1: error: stray '\255' in program
-./code.c:1:1: error: stray '\346' in program
-./code.c:1:1: error: stray '\226' in program
-./code.c:1:1: error: stray '\207' in program

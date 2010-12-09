@@ -1,2 +1,0 @@
--- Title: 让寒仔gg和水寒mm聊天吧
-limits = { time = 3, memory = 32 }

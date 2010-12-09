@@ -1,5 +1,0 @@
-./code.c: In function 'main':
-./code.c:5:11: warning: incompatible implicit declaration of built-in function 'calloc'
-./code.c:5:18: warning: integer constant is too large for its type
-./code.c:5:1: warning: large integer implicitly truncated to unsigned type
-./code.c:5:1: error: too few arguments to function 'calloc'

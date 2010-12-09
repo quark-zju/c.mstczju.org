@@ -1,2 +1,0 @@
--- Title: 铁甲依然在
-limits = { time = 3, memory = 32 }

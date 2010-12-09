@@ -7,17 +7,25 @@ submission model -- done
 submission check problem
 
 
-submission link (code, ce ... ) -- done partial
+submission link (code, ce ... ) -- done 
 ranklist (
 select submissions for each problem, count user score into a hash and show that hash at last
 refresh every minute
 refresh time can not be more than freeze time
-)
-freeze board
+) -- done
+freeze board -- done
 
 prevent too quick submission -- done
 
-prevent too long compile error info
+prevent too long compile error info -- done
 
-judge
+judge -- doen
+
+auto refresh submitted ---
+
+ie6 logo
+
+ranklist full problems 
+
+ranklist file cache
 

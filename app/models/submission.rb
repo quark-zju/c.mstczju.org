@@ -75,6 +75,10 @@ class Submission < ActiveRecord::Base
         info.print @code 
       end
     end
+    if File.exist? "#{path}/log"
+      # try to remove that log
+      File.delete "#{path}/log" rescue nil
+    end
   end
 
   def path_from_id(id)

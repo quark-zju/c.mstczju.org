@@ -1,2 +1,0 @@
--- Title: A+B
-limits = { time = 3, memory = 32 }

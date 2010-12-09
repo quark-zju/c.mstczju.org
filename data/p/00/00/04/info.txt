@@ -1,2 +1,0 @@
--- Title: 海豹行动
-limits = { time = 3, memory = 32 }

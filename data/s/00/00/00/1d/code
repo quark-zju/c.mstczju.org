@@ -1,8 +1,0 @@
-#include <stdio.h>
-
- int main()
- {
- char a[10000000];
- a[400] = 'a';
- return 0;
- }

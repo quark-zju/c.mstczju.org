@@ -1,2 +1,0 @@
--- Title: 板砖
-limits = { time = 3, memory = 32 }
