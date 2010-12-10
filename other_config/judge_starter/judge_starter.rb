@@ -169,7 +169,7 @@ while true do
 	s.update_attributes!(:result => stat, :used_time => time, :used_memory => memory)
 
 	if (judge_count += 1) % 16 == 0
-		puts "#{Time.now - start_time} sec : #{judge_count += 1} submissions"
+		puts "#{Time.now - start_time} sec : #{judge_count} submissions"
 	end
 	# end
 end
