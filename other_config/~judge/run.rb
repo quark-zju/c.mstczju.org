@@ -85,7 +85,7 @@ begin
 		:OUTPUT => "'#{user_prefix}_run_output'", :ERROR => "'/dev/null'",
 		:INPUT => "'#{ENV['PWD']}/#{problem_path}/input'",
 		:UID => uid + 10000, :GID => uid + 1000, :TIME => time_limit, :MEMORY => memory_limit,
-		:DEADLINE => (time_limit.to_f * 1.5 + 1).to_s, :CHDIR => "'/tmp'", 
+		:DEADLINE => (time_limit.to_f * 2 + 1).to_s, :CHDIR => "'/tmp'", 
 		:CHROOT => "'#{sandbox_root}'",
 	}
 	subs.each do |k, v|
