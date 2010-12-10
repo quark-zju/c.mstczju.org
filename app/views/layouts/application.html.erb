@@ -10,7 +10,7 @@
     <%= stylesheet_link_tag 'prettify', :media => 'screen' %>
     <%= javascript_include_tag 'prettify/prettify'  %>
   </head>
-  <body>
+  <body onload="prettyPrint()">
     <div class="container">
       <%= render 'layouts/header' %>
       <%= render 'layouts/navbar' %>
