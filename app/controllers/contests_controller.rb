@@ -54,10 +54,23 @@ class ContestsController < ApplicationController
     contest_id = @contest.id
     expires_in 1.minute 
 
+    # times
+    frozen, final = false, false
+    from_time = @contest.start_time.to_datetime
+    till_time = if Time.now > @contest.end_time
+                  final = true
+                  @contest.end_time.to_datetime
+                elsif @contest.freeze_time and Time.now > @contest.freeze_time
+                  frozen = true
+                  @contest.freeze_time.to_datetime
+                else
+                  DateTime.now
+                end
+
     if fragment_exist?({:action => 'ranklist', :id => contest_id, :controller => 'contests' })
       # should let it expires?
       last_update = $ranklist_last_updates[contest_id]
-      if last_update.nil? or (DateTime.now - last_update) > 2.0 / 1440.0
+      if last_update.nil? or (till_time - last_update).abs > 2.5 / 1440.0 or (final and last_update < till_time)
         expire_fragment({:action => 'ranklist', :id => contest_id, :controller => 'contests' })
         # @title = '重新生成'
       else
@@ -65,6 +78,9 @@ class ContestsController < ApplicationController
         return
       end
     end
+    
+    # mark last update time (till_time)
+    $ranklist_last_updates[contest_id] = till_time
 
     # UserCache
     # filter problems
@@ -74,19 +90,6 @@ class ContestsController < ApplicationController
       problem_filters[link.problem_id] = true
       @problems[link.problem_id] = link.name
     end
-
-    frozen = false
-    from_time = @contest.start_time.to_datetime
-    till_time = if Time.now > @contest.end_time
-                  @contest.end_time.to_datetime
-                elsif @contest.freeze_time and Time.now > @contest.freeze_time
-                  frozen = true
-                  @contest.freeze_time.to_datetime
-                else
-                  DateTime.now
-                end
-
-    $ranklist_last_updates[contest_id] = till_time
 
     # collect contestants
     ranking = {}
@@ -108,13 +111,11 @@ class ContestsController < ApplicationController
       end
     end
 
-    # TODO save to cache
-
-     
     # set @rank to view
     @problems = @problems.sort_by { |k, v| v }
     @rank = (ranking.sort_by { |k, v| v }).reverse
-    @update_time = "#{till_time.strftime '%Y-%m-%d %H:%M:%S'} #{'(此为冻结时排名，非最新排名)' if frozen}"
+    @update_time = "#{till_time.strftime '%Y-%m-%d %H:%M:%S'} #{'(排名已经冻结，此页面显示的不是最新排名)' if frozen}"
+    @update_time << "(此页面内容即为最终排名结果)" if final
   end
 
   # clean cache

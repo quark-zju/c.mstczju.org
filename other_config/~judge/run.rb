@@ -15,12 +15,13 @@ user_prefix = "/tmp/ram/#{user}"
 	"#{user_prefix}_run_output", 
 	"#{user_prefix}_p1.lua", 
 	"#{user_prefix}_p2.lua", 
+	"#{sandbox_root}/tmp/run", 
 	"#{sandbox_root}/tmp/", 
 ]
 
 #    ['尚未评测', '正在评测', '编译错误', '答案正确', '格式错误', # 0 - 4
 #     '答案错误', '运行超时', '内存超限', '输出超限', '段错误',   # 5 - 9
-#     '运行出错', '内部错误']
+#     '运行出错', '内部错误', '浮点错误']
 
 def output_result(code, result = '')
 	puts "Result = #{code}"
@@ -71,7 +72,7 @@ begin
 	# Run compiler in sandbox (compiler path is in sandbox)
 	result = `sudo /sbin/zandbox "#{policy_path}" "/bin/sh" "/tmp/compile.sh"`
 
-	unless (result =~ /^\] STAT EXITTED$/) and File.exist?("#{sandbox_root}/tmp/run")
+	if (not (result =~ /^\] STAT EXITTED$/)) or (not File.exist?("#{sandbox_root}/tmp/run"))
 		# Wait file written
 		content = file_content("#{user_prefix}_compile_output") + file_content("#{user_prefix}_compile_error")
 		content += result if content.length < 5
@@ -100,15 +101,17 @@ begin
         :RESTRICTED_SYSCALL => 10,
         :MEMORY_LIMIT_EXCEED => 7,
         :TIME_LIMIT_EXCEED => 6,
-        :OUTPUT_LIMIT_EXCEED => 8, # TODO Assign OLE a number
+        :OUTPUT_LIMIT_EXCEED => 8, 
         :SEGMENTATION_FAULT => 9,
         :MANUALLY_STOP => 10,
         :PROCESS_LIMIT_EXCEED => 9,
+	:FLOAT_POINT_EXCEPTION => 12,
+	:RUNTIME_ERROR => 10,		
 	}
 
 #    ['尚未评测', '正在评测', '编译错误', '答案正确', '格式错误', # 0 - 4
 #     '答案错误', '运行超时', '内存超限', '输出超限', '段错误',   # 5 - 9
-#     '运行出错', '内部错误']
+#     '运行出错', '内部错误', '浮点错误']
 
 	if result =~ /\] STAT (?<stat>.*)$/
 		stat = $~[:stat]
@@ -136,20 +139,24 @@ begin
 		memory = $~[:memory].to_f * 10.24 
 	end
 
+	additional_log = ''
+
 	begin
 		judge_result = if out_std == out_user
 						   3
 					   elsif out_std.gsub(/\W/, '') == out_user.gsub(/\W/, '')
 						   4
 					   else
+						   additional_log = "== STDOUT ==\n#{out_std[0..1024]}== USEROUT ==\n#{out_user[0..1024]}\n== END =="
 						   5
 					   end
 	rescue
 		# gsub may cause encoding error
 		judge_result = 5
 	end
+
 	# Time: 0.001 s, Memory: 0.1 MB
-	output_result judge_result, "Time = #{time}\nMemory = #{memory}"
+	output_result judge_result, "Time = #{time}\nMemory = #{memory}\n#{additional_log}"
 
 	# === CLEAN UP =========================================================================
 	clean_up

@@ -1,7 +1,7 @@
 
 body {
   background-color: #eee; color: #333;
-  font-family: verdana, arial, helvetica, sans-serif;
+  font-family: verdana, Microsoft YaHei, arial, helvetica, sans-serif;
   font-size:   13px;
   line-height: 18px;
 }
@@ -140,7 +140,7 @@ a:hover {
 .judgeRes-4 {
   color: #f09;
 }
-.judgeRes-5, .judgeRes-6, .judgeRes-7, .judgeRes-8, .judgeRes-9, .judgeRes-10 {
+.judgeRes-5, .judgeRes-6, .judgeRes-7, .judgeRes-8, .judgeRes-9, .judgeRes-10, .judgeRes-12, .judgeRes-13 {
   color: green;
 }
 .judgeRes-11 {
@@ -169,4 +169,10 @@ table {
 }
 table.compact td, table.compact th {
   padding: 4px 2px;
+}
+.center {
+  text-align: center;
+}
+#problemContent h4 {
+  color: green;
 }

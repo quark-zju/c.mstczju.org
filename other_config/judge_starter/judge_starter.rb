@@ -127,8 +127,8 @@ while true do
 		memory = $~[:memory] if output =~ /^Memory = (?<memory>.*)$/
 
 		log_file = "#{submission_path(s.id)}/log"
-		if stat == 2 or stat == 11
-			# stat == 2 : COMPILE_ERROR || INTERNAL_ERROR
+		if stat == 2 or stat == 11 or stat == 5
+			# stat == 2 : COMPILE_ERROR || INTERNAL_ERROR || WRONG_ANSWER(for debug)
 			# write result.lines[2..] to file (only consider first 4k characters) as details log
 			info = output[0..4096].split("\n")[1..-1].join("\n")
 			info << "\n...." if output.length >= 4096 
