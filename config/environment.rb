@@ -3,6 +3,7 @@ require File.expand_path('../application', __FILE__)
 
 # globar variables
 $next_submit_limits = {}
+$ranklist_last_updates = {}
 
 # Dir.mkdir_as_needed
 def Dir.mkdir_as_needed(path)

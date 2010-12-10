@@ -51,27 +51,42 @@ class ContestsController < ApplicationController
   def ranklist
     @title = '比赛排名'
     @contest = Contest.find(params[:id])
+    contest_id = @contest.id
     expires_in 1.minute 
 
-    # TODO : use cache
+    if fragment_exist?({:action => 'ranklist', :id => contest_id, :controller => 'contests' })
+      # should let it expires?
+      last_update = $ranklist_last_updates[contest_id]
+      if last_update.nil? or (DateTime.now - last_update) > 2.0 / 1440.0
+        expire_fragment({:action => 'ranklist', :id => contest_id, :controller => 'contests' })
+        # @title = '重新生成'
+      else
+        # @title = '缓存'
+        return
+      end
+    end
 
     # UserCache
     # filter problems
     problem_filters, user_filters = {}, {}
+    @problems = {}
     ProblemLink.find(:all, :conditions => { :contest_id => @contest.id }).each do |link|
       problem_filters[link.problem_id] = true
+      @problems[link.problem_id] = link.name
     end
 
     frozen = false
     from_time = @contest.start_time.to_datetime
     till_time = if Time.now > @contest.end_time
                   @contest.end_time.to_datetime
-                elsif Time.now > @contest.freeze_time
+                elsif @contest.freeze_time and Time.now > @contest.freeze_time
                   frozen = true
                   @contest.freeze_time.to_datetime
                 else
                   DateTime.now
                 end
+
+    $ranklist_last_updates[contest_id] = till_time
 
     # collect contestants
     ranking = {}
@@ -97,6 +112,7 @@ class ContestsController < ApplicationController
 
      
     # set @rank to view
+    @problems = @problems.sort_by { |k, v| v }
     @rank = (ranking.sort_by { |k, v| v }).reverse
     @update_time = "#{till_time.strftime '%Y-%m-%d %H:%M:%S'} #{'(此为冻结时排名，非最新排名)' if frozen}"
   end
@@ -135,9 +151,10 @@ class ContestsController < ApplicationController
       return if problem_solved[problem_id] # already ac
       if judge_accepted? stat
         # Datetime - returns days, not seconds. 1 day = 1440 minutes
-        @penalty += (submit.created_at.to_datetime - contest_start_time) * 1440.0
+        solved_at = (submit.created_at.to_datetime - contest_start_time) * 1440.0
+        @problem_solved[problem_id] = solved_at
+        @penalty += solved_at
         @penalty += (problem_attempts[problem_id] or 0) * 20.0
-        @problem_solved[problem_id] = true
         @solved += 1
       elsif judge_rejected? stat
         @problem_attempts[problem_id] ||= 0

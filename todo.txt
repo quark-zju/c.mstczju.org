@@ -21,14 +21,13 @@ prevent too long compile error info -- done
 
 judge -- doen
 
-auto refresh submitted ---
+auto refresh submitted --- done
 
-ie6 logo
+ie6 logo -- done
 
-ranklist full problems 
+ranklist full problems -- done
 
-ranklist file cache
+ranklist file cache -- use frag cache, done
 
-global notify
+global notify -- done
 
-auto refresh

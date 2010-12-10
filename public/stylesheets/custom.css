@@ -159,3 +159,14 @@ a:hover {
   border: 1px solid #ddd;
   background: #fff;
 }
+table {
+  border: 1px solid #ddd;
+  background: #f7f7f7;
+}
+.tiny {
+  font-size: 0.8em;
+  font-family: Arial;
+}
+table.compact td, table.compact th {
+  padding: 4px 2px;
+}

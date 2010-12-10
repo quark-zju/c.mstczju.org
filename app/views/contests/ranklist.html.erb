@@ -1,11 +1,13 @@
+<% cache do %>
 <h1><%= @title %></h1>
-<table>
+<table id="ranklist" class="compact">
   <thead>
     <th>排名</th>
     <th>用户</th>
-    <% %>
+    <% @problems.each do |id, name| %>
+      <th><%= name %></th>
+    <% end %>
     <th>通过题目</th>
-    <% %>
     <th>罚时(分钟)</th>
     <th>奖品</th>
   </thead>
@@ -23,6 +25,16 @@
         %>
         <td><%= rank_shown %></td>
         <td><%= link_to shorten(v.user_name), :controller => 'users', :action => 'show', :id => v.user_id %></td>
+        <% @problems.each do |id, name| %>
+          <td class="tiny">
+            <% attempts = v.problem_attempts[id] || 0 %>
+            <% if v.problem_solved[id] %>
+              <%= sprintf('%.2f(%d)', v.problem_solved[id], attempts + 1) %>
+            <% else %>
+              <%= attempts %>
+            <% end %>
+          </td>
+        <% end %>
         <td><%= v.solved %></td>
         <td><%= sprintf('%.2f', v.penalty) %></td>
         <td><%= prize_for rank_shown if v.solved > 0 %></td>
@@ -32,6 +44,4 @@
 </table>
 <p>比赛名称：<%= @contest.name %><br>
 更新时间：<%= @update_time %></p>
-
-
-
+<% end %>
