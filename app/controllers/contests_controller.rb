@@ -55,10 +55,10 @@ class ContestsController < ApplicationController
     expires_in 1.minute 
 
     # times
-    frozen, final = false, false
+    frozen, final, closed = false, false, false
     from_time = @contest.start_time.to_datetime
     till_time = if Time.now > @contest.end_time
-                  final = true
+                  final = closed = true
                   @contest.end_time.to_datetime
                 elsif @contest.freeze_time and Time.now > @contest.freeze_time
                   frozen = true
@@ -106,6 +106,9 @@ class ContestsController < ApplicationController
                     :conditions => {:created_at => from_time..till_time}, 
                     :order => 'created_at ASC').each do |s|
       if problem_filters[s.problem_id]
+        if s.result <= 1 then
+          final = false
+        end
         rank = ranking[s.user_id]
         rank.update(s, from_time) unless rank.nil?
       end
@@ -115,12 +118,11 @@ class ContestsController < ApplicationController
     @problems = @problems.sort_by { |k, v| v }
     @rank = (ranking.sort_by { |k, v| v }).reverse
     @update_time = "#{till_time.strftime '%Y-%m-%d %H:%M:%S'} #{'(排名已经冻结，此页面显示的不是最新排名)' if frozen}"
-    @update_time << "(此页面内容即为最终排名结果)" if final
+    @update_time << "(比赛已经结束#{final ? '，此页面内容为最终结果' : '尚有评测结果未知，请稍候'})" if closed
   end
 
   # clean cache
   def refresh
-
     #redirect_to 'ranklist'
   end
 
