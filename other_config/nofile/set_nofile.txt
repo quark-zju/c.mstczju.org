@@ -1,0 +1,18 @@
+/etc/rc.local
+	ulimit -SHn 51200
+
+/opt/nginx/etc/nginx.conf
+	worker_rlimit_nofile 51200;
+	events
+	{
+		use epoll;
+		worker_connections 51200;
+	}
+
+
+/etc/security/limits.conf
+	* soft nofile 51200
+	* hard nofile 51200
+
+ulimit -n
+	should output 51200
