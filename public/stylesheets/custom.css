@@ -1,4 +1,6 @@
-
+h1 {
+  font-family: Microsoft YaHei, 华文细黑, 黑体; 
+}
 body {
   background-color: #eee; color: #333;
   font-family: verdana, Microsoft YaHei, arial, helvetica, sans-serif;
