@@ -2,7 +2,7 @@
 
 class ContestsController < ApplicationController
 
-  before_filter :privileged_user, :only => [:edit, :update, :new, :create, :destroy]
+  before_filter :privileged_user, :only => [:edit, :update, :new, :create, :destroy, :refresh]
   before_filter :correct_time, :only => [:show]
 
   #caches_page :ranklist
@@ -52,33 +52,37 @@ class ContestsController < ApplicationController
     @title = '比赛排名'
     @contest = Contest.find(params[:id])
     contest_id = @contest.id
-    expires_in 1.minute 
 
     # times
-    frozen, final, closed = false, false, false
+    frozen, final, has_not_judged, @comment = false, false, false, ''
     from_time = @contest.start_time.to_datetime
     till_time = if Time.now > @contest.end_time
-                  final = closed = true
+                  @comment << 'using final till_time; '
+                  final = true
                   @contest.end_time.to_datetime
                 elsif @contest.freeze_time and Time.now > @contest.freeze_time
+                  @comment << 'using frozen till_time; '
                   frozen = true
                   @contest.freeze_time.to_datetime
                 else
-                  DateTime.now
+                  @comment << "#{@contest.end_time} greater than #{Time.now}; "
+                  # return 0.8 minutes ago
+                  @comment << 'using normal till_time; '
+                  DateTime.now - 0.8 / 1400.0
                 end
 
     if fragment_exist?({:action => 'ranklist', :id => contest_id, :controller => 'contests' })
       # should let it expires?
       last_update = $ranklist_last_updates[contest_id]
-      if last_update.nil? or (till_time - last_update).abs > 2.5 / 1440.0 or (final and last_update < till_time)
+      if last_update.nil? or (till_time - last_update).abs > 2 / 1440.0 or (final and last_update < till_time)
+        @comment << 'refreshed cache; '
         expire_fragment({:action => 'ranklist', :id => contest_id, :controller => 'contests' })
-        # @title = '重新生成'
       else
-        # @title = '缓存'
+        @comment << 'using cache; '
         return
       end
     end
-    
+
     # mark last update time (till_time)
     $ranklist_last_updates[contest_id] = till_time
 
@@ -106,24 +110,29 @@ class ContestsController < ApplicationController
                     :conditions => {:created_at => from_time..till_time}, 
                     :order => 'created_at ASC').each do |s|
       if problem_filters[s.problem_id]
-        if s.result <= 1 then
-          final = false
-        end
+        has_not_judged = true if s.result <= 1
         rank = ranking[s.user_id]
         rank.update(s, from_time) unless rank.nil?
       end
     end
 
-    # set @rank to view
+    # set cache as invalid if has not judged
+    $ranklist_last_updates[contest_id] = nil if has_not_judged
+    
+    # pass @variables to view
+    @comment << (has_not_judged ? 'has not judged; ' : 'all judged; ')
     @problems = @problems.sort_by { |k, v| v }
     @rank = (ranking.sort_by { |k, v| v }).reverse
-    @update_time = "#{till_time.strftime '%Y-%m-%d %H:%M:%S'} #{'(排名已经冻结，此页面显示的不是最新排名)' if frozen}"
-    @update_time << "(比赛已经结束#{final ? '，此页面内容为最终结果' : '尚有评测结果未知，请稍候'})" if closed
+    @update_time = "#{till_time.strftime '%Y-%m-%d %H:%M:%S'} #{'(排名已经冻结，此页面显示的不是最新排名)' if frozen and not has_not_judged}"
+    @update_time << "(比赛已经结束。#{has_not_judged == false ? '此页面内容为最终排名' : '尚有评测结果未确定，请稍候'})" if final
   end
 
   # clean cache
   def refresh
-    #redirect_to 'ranklist'
+    id = Contest.find(params[:id])
+    $ranklist_last_updates[id] = nil
+    flash[:notice] = 'Refreshed'
+    redirect_to :action => 'ranklist', :id => id
   end
 
   private

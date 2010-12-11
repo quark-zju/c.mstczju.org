@@ -17,7 +17,8 @@
   <% if is_admin? %>
     <div class="field">
       <%= f.label :result, '结果' %><br />
-      <%= f.select :result, judge_results %>
+      <% result_id = -1 %>
+      <%= f.select :result, judge_results.collect { |x| [ x, result_id+=1 ] } %>
     </div>
   <% end %>
   <div class="field">

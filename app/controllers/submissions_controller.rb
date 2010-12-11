@@ -49,6 +49,7 @@ class SubmissionsController < ApplicationController
       :problem_id => params[:submission][:problem_id],
       :lang => params[:submission][:lang],
       :code => params[:submission][:code],
+      :result => 0,
     }
 
     # check problem_id time
