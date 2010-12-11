@@ -129,8 +129,9 @@ class ContestsController < ApplicationController
 
   # clean cache
   def refresh
-    id = Contest.find(params[:id])
-    $ranklist_last_updates[id] = nil
+    id = params[:id]
+    $ranklist_last_updates[id.to_s] = nil
+    $ranklist_last_updates[id.to_i] = nil
     flash[:notice] = 'Refreshed'
     redirect_to :action => 'ranklist', :id => id
   end

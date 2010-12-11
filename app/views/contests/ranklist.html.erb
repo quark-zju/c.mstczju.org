@@ -21,7 +21,7 @@
           rank_shown = rank_counter if (last_rank <=> v) != 0
           last_rank = v
           rank_counter += 1
-%><td><%= rank_shown %></td><td><%= link_to shorten(v.user_name), :controller => 'users', :action => 'show', :id => v.user_id %></td><% @problems.each do |id, name| %><td class="tiny"><% attempts = v.problem_attempts[id] || 0 %><% if v.problem_solved[id] %><%= sprintf('%.2f(%d)', v.problem_solved[id], attempts + 1) %><% else %><%= attempts %><% end %></td><% end %><td><%= v.solved %></td>
+%><td><%= rank_shown %></td><td><%= link_to shorten(v.user_name), :controller => 'users', :action => 'show', :id => v.user_id %></td><% @problems.each do |id, name| %><td class=tiny><% attempts = v.problem_attempts[id] || 0 %><% if v.problem_solved[id] %><%= sprintf('%.2f(%d)', v.problem_solved[id], attempts + 1) %><% else %><%= attempts %><% end %></td><% end %><td><%= v.solved %></td>
 <td><%= sprintf('%.2f', v.penalty) %></td>
 <td><%= prize_for rank_shown if v.solved > 0 %></td>
 </tr>
