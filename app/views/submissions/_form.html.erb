@@ -2,11 +2,12 @@
   <%= render 'shared/error_messages', :object => f.object %>
 
   <div class="field">
-    <%= f.label :problem_id, '题目ID' %><br />
-    <span>和<b>标号</b>没有联系</span><br />
+    <%= f.label :problem_id, '题目ID' %>
     <% if params[:problem_id] %>
-      <%= f.text_field :problem_id, :value => params[:problem_id] %>
+      <span><%= params[:problem_id] %></span>
+      <%= f.text_field :problem_id, :value => params[:problem_id], :class => "hidden" %>
     <% else %>
+      <br />
       <%= f.text_field :problem_id %>
     <% end %>
   </div>

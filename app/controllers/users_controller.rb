@@ -19,7 +19,12 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     # TODO show recent submits
     # @microposts = @user.microposts.paginate(:page => params[:page])
-    @title = @user.name
+    
+    @title = if @user == current_user
+               @user.name
+             else
+               @user.mask_name
+             end
   end
 
   #def create
@@ -84,7 +89,7 @@ class UsersController < ApplicationController
 
   def correct_user
     @user = User.find(params[:id])
-    if not current_user?(@user)
+    if true #not current_user?(@user)
       flash[:error] = "您无权访问该页"
       redirect_to(root_path)
     end

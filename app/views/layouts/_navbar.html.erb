@@ -4,9 +4,6 @@
     <li><%= link_to "比赛列表", contests_path %></li>
     <li><%= link_to "当前排名", ranklist_path %></li>
     <li><%= link_to "最近提交", submissions_path %></li>
-    <% if signed_in? %>
-      <li><%= link_to "修改资料", edit_user_path(current_user) %></li>
-    <% end %>
     <li><%= link_to "帮助", help_path %></li>
     <% if is_admin? %>
       <hr class="nomarginbottom">

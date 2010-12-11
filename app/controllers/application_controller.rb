@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
 
   include SessionsHelper
 
-
+=begin
   #ActiveRecord exceptions
   rescue_from ActiveRecord::RecordNotFound, :with => :not_found #400   
 
@@ -34,6 +34,6 @@ class ApplicationController < ActionController::Base
     render :text => "Error", :status => 404
   end
 
-
+=end
   private
 end

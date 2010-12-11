@@ -100,9 +100,9 @@ class ContestsController < ApplicationController
     # TODO : use other string match (include ?)
     User.find(:all, 
               :conditions => { :group => @contest.visible_group }, 
-              :select => 'id, nick').each do |u|
+              :select => 'id, nick, name').each do |u|
       id = u.id
-      ranking[id] = UserRank.new(id, u.nick)
+      ranking[id] = UserRank.new(id, "#{u.mask_name} | #{u.nick}")
     end
 
     # consider submissions at that time and update ranking

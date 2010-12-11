@@ -1,4 +1,5 @@
 class ProblemLink < ActiveRecord::Base
+  default_scope :order => 'problem_links.name ASC'
   attr_accessible :problem_id, :contest_id, :name
 
   belongs_to :contest
