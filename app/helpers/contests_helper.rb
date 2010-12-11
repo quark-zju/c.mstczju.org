@@ -5,7 +5,7 @@ module ContestsHelper
   PRIZE_NAMES = ['神秘奖', '耳机', 'USB Hub', '巧克力']
   
   def prize_count_reset
-    @remaining_prize_counts = [1, 36, 114, 1024]
+    @remaining_prize_counts = [1, 35, 114, 1024]
   end
 
   def prize_name(prize_id)

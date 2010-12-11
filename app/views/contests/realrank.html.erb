@@ -1,7 +1,5 @@
-<% cache do %>
 <h1><%= @title %></h1>
-<p>比赛名称：<%= @contest.name %><br>
-更新时间：<%= @update_time %></p>
+<p>实时排名，此页没有缓存，请不要频繁刷新</p>
 <table id="ranklist" class="compact">
   <thead>
     <th>排名</th>
@@ -9,8 +7,8 @@
     <% @problems.each do |id, name| %>
       <th><%= name %></th>
     <% end %>
-    <th>通过题目</th>
-    <th>罚时(分钟)</th>
+    <th>通过</th>
+    <th>罚时</th>
     <th>奖品</th>
   </thead>
 <% 
@@ -30,4 +28,21 @@
 <% end %>
 <% end %>
 </table>
+<p>比赛名称：<%= @contest.name %><br>
+更新时间：<%= @update_time %></p>
+<hr>
+<p>For hsys:</p>
+<pre class="code">
+<%
+  prize_count_reset 
+  rank_counter, rank_shown, last_rank = 1, 1, @rank.first 
+  @rank.each do |k, v|
+    rank_shown = rank_counter if (last_rank <=> v) != 0
+    last_rank = v
+    rank_counter += 1
+%>
+<%= "#{rank_shown} #{v.user_name}" %>
+<% #{prize_for rank_shown if v.solved > 0}" %> 
 <% end %>
+</pre>
+

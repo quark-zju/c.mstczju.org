@@ -1,7 +1,8 @@
 # SQLite version 3.x
 development:
   adapter: mysql2
-  database: contest_dev 
+  database: contest_pro
+  # was: contest_dev 
   encoding: utf8
   username: contest
   password: testcon

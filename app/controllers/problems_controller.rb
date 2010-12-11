@@ -54,7 +54,7 @@ class ProblemsController < ApplicationController
     @problem = Problem.find(params[:id])
     permitted, now = false, Time.now
     @problem.contests.each do |contest|
-      if now >= contest.start_time and now <= contest.end_time
+      if now >= contest.start_time #and now <= contest.end_time
         permitted = true
         break
       end

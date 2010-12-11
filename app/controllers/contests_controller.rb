@@ -2,7 +2,7 @@
 
 class ContestsController < ApplicationController
 
-  before_filter :privileged_user, :only => [:edit, :update, :new, :create, :destroy, :refresh]
+  before_filter :privileged_user, :only => [:edit, :update, :new, :create, :destroy, :refresh, :realrank]
   before_filter :correct_time, :only => [:show]
 
   #caches_page :ranklist
@@ -100,9 +100,9 @@ class ContestsController < ApplicationController
     # TODO : use other string match (include ?)
     User.find(:all, 
               :conditions => { :group => @contest.visible_group }, 
-              :select => 'id, nick, name').each do |u|
+              :select => 'id, nick').each do |u|
       id = u.id
-      ranking[id] = UserRank.new(id, "#{u.mask_name} | #{u.nick}")
+      ranking[id] = UserRank.new(id, "#{u.nick}")
     end
 
     # consider submissions at that time and update ranking
@@ -134,6 +134,60 @@ class ContestsController < ApplicationController
     $ranklist_last_updates[id.to_i] = nil
     flash[:notice] = 'Refreshed'
     redirect_to :action => 'ranklist', :id => id
+  end
+
+  # real rank for admin
+  def realrank
+    @title = 'Realtime Ranklist'
+    @contest = Contest.find(params[:id])
+    contest_id = @contest.id
+
+    # times
+    frozen, final, has_not_judged, @comment = false, false, false, ''
+    from_time = @contest.start_time.to_datetime
+    till_time = if Time.now > @contest.end_time
+                  final = true
+                  @contest.end_time.to_datetime
+                else
+                  # return 0.8 minutes ago
+                  DateTime.now - 0.1 / 1400.0
+                end
+
+    # UserCache
+    # filter problems
+    problem_filters, user_filters = {}, {}
+    @problems = {}
+    ProblemLink.find(:all, :conditions => { :contest_id => @contest.id }).each do |link|
+      problem_filters[link.problem_id] = true
+      @problems[link.problem_id] = link.name
+    end
+
+    # collect contestants
+    ranking = {}
+    # TODO : use other string match (include ?)
+    User.find(:all, 
+              :conditions => { :group => @contest.visible_group }, 
+              :select => 'id, name').each do |u|
+      id = u.id
+      ranking[id] = UserRank.new(id, u.name)
+    end
+
+    # consider submissions at that time and update ranking
+    # TODO : check created_at order works !
+    Submission.find(:all, 
+                    :conditions => {:created_at => from_time..till_time}, 
+                    :order => 'created_at ASC').each do |s|
+      if problem_filters[s.problem_id]
+        has_not_judged = true if s.result <= 1
+        rank = ranking[s.user_id]
+        rank.update(s, from_time) unless rank.nil?
+      end
+    end
+
+    # pass @variables to view
+    @problems = @problems.sort_by { |k, v| v }
+    @rank = (ranking.sort_by { |k, v| v }).reverse
+    @update_time = "#{till_time.strftime '%Y-%m-%d %H:%M:%S'} #{'(还有提交在评测中)' if not has_not_judged}"
   end
 
   private

@@ -13,6 +13,7 @@ CContest::Application.routes.draw do
 
   match 'contests/:id/refresh' => 'contests#refresh'
   match 'contests/:id/ranklist' => 'contests#ranklist'
+  match 'contests/:id/realrank' => 'contests#realrank'
 
   resources :users, :only => [:show, :index, :edit, :update]
   resources :sessions, :only => [:new, :create, :destroy]
