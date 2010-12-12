@@ -187,7 +187,7 @@ class ContestsController < ApplicationController
     # pass @variables to view
     @problems = @problems.sort_by { |k, v| v }
     @rank = (ranking.sort_by { |k, v| v }).reverse
-    @update_time = "#{till_time.strftime '%Y-%m-%d %H:%M:%S'} #{'(还有提交在评测中)' if not has_not_judged}"
+    @update_time = "#{till_time.strftime '%Y-%m-%d %H:%M:%S'} #{'(还有提交在评测中)' if has_not_judged}"
   end
 
   private
