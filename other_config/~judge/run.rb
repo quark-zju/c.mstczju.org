@@ -126,7 +126,7 @@ begin
 	# compare "#{problem_path}/output" with "#{user_prefix}_run_output"
 	# TODO allow custom comparer, or use native comparer
 	out_std = File.read("#{problem_path}/output")
-	out_user = File.read "#{user_prefix}_run_output"
+	out_user = (File.read "#{user_prefix}_run_output" rescue '')
 
 	out_std << "\n" unless out_std.end_with? "\n"
 	out_user << "\n" unless out_user.end_with? "\n"
@@ -139,7 +139,7 @@ begin
 		memory = $~[:memory].to_f * 10.24 
 	end
 
-	additional_log = ''
+	additional_log = "== RESULT ==\n#{result}\n"
 
 	begin
 		judge_result = if out_std == out_user
@@ -147,7 +147,7 @@ begin
 					   elsif out_std.gsub(/\W/, '') == out_user.gsub(/\W/, '')
 						   4
 					   else
-						   additional_log = "== STDOUT ==\n#{out_std[0..1024]}== USEROUT ==\n#{out_user[0..1024]}\n== END =="
+						   additional_log << "== STDOUT ==\n#{out_std[0..1024]}\n== USEROUT ==\n#{out_user[0..1024]}\n== END =="
 						   5
 					   end
 	rescue

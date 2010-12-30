@@ -11,9 +11,9 @@
       <%= f.text_field :problem_id %>
     <% end %>
   </div>
-  <div class="field hidden">
+  <div class="field">
     <%= f.label :lang, '语言' %><br />
-    <%= f.select :lang, ['C'] %>
+    <%= f.select :lang, ['C', 'C++'] %>
   </div>
   <% if is_admin? %>
     <div class="field">
